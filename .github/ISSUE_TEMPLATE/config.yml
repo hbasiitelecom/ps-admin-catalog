@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Question sur l'application
+    url: https://github.com/admindroid-community/powershell-scripts
+    about: Pour les scripts eux-mêmes, voir le dépôt source AdminDroid.

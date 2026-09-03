@@ -1,0 +1,55 @@
+name: Valider le catalogue
+
+# Le catalogue est consomme directement par l'application : tout ce qui atteint
+# main doit etre valide. La CI est la seule barriere avant publication.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Principe du moindre privilege : ce workflow ne fait que lire le depot.
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Structure, regex et version
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Action epinglee sur un SHA complet, pas sur une etiquette mouvante :
+      # une etiquette peut etre redirigee vers un commit malveillant.
+      - name: Recuperer la revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Extraire la version de reference (main)
+        id: baseline
+        if: github.event_name == 'pull_request'
+        run: |
+          if git show origin/main:catalog.json > /tmp/baseline.json 2>/dev/null; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Valider le catalogue
+        run: |
+          if [ "${{ steps.baseline.outputs.found }}" = "true" ]; then
+            python3 tools/validate_catalog.py catalog.json --check-format --baseline /tmp/baseline.json
+          else
+            python3 tools/validate_catalog.py catalog.json --check-format
+          fi
+
+      - name: Verifier la coherence du schema JSON
+        run: |
+          python3 -c "import json,sys; json.load(open('schema/catalog.schema.json',encoding='utf-8')); print('schema JSON bien forme')"

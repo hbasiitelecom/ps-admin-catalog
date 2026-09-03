@@ -1,0 +1,10 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["catalog.json"],
+      "url": "./schema/catalog.schema.json"
+    }
+  ],
+  "files.eol": "\n",
+  "files.insertFinalNewline": true
+}

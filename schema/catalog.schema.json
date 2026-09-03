@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/hbasiitelecom/ps-admin-catalog/main/schema/catalog.schema.json",
+  "title": "AdminDroid Script Launcher — catalogue",
+  "description": "Base de donnees partagee : depots sources, categories de services, regles de compatibilite PowerShell 7 et annotations par script.",
+  "type": "object",
+  "required": ["schemaVersion", "catalogVersion", "name", "sources"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Chemin ou URL du schema. Ignore par l'application."
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1,
+      "description": "Contrat structurel avec l'application. Une application plus ancienne refuse un schema plus recent."
+    },
+    "catalogVersion": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+      "description": "Version du contenu, en SemVer. Toute difference avec la version locale declenche la notification de mise a jour."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "description": "Nom affiche dans la barre d'etat et la fenetre de reglages."
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 400
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Depots GitHub indexes par l'application.",
+      "items": { "$ref": "#/$defs/source" }
+    },
+    "services": {
+      "type": "array",
+      "description": "Categories du rail de navigation, deduites du code des scripts.",
+      "items": { "$ref": "#/$defs/service" }
+    },
+    "rules": {
+      "type": "array",
+      "description": "Regles de compatibilite PowerShell 7. La severite la plus elevee l'emporte.",
+      "items": { "$ref": "#/$defs/rule" }
+    },
+    "overrides": {
+      "type": "array",
+      "description": "Annotations par script, appliquees apres les regles.",
+      "items": { "$ref": "#/$defs/override" }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,39}$",
+      "description": "Identifiant stable en minuscules. Ne jamais renommer : les favoris et l'historique s'y referent."
+    },
+    "githubName": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]{1,100}$",
+      "description": "Segment de chemin GitHub. Restreint pour empecher toute injection dans l'URL construite par l'application."
+    },
+    "source": {
+      "type": "object",
+      "required": ["id", "name", "owner", "repo"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "owner": { "$ref": "#/$defs/githubName" },
+        "repo": { "$ref": "#/$defs/githubName" },
+        "branch": { "type": "string", "pattern": "^[A-Za-z0-9._/-]{1,100}$", "default": "main" },
+        "metadataStyle": { "type": "string", "enum": ["admindroid", "generic"], "default": "generic" },
+        "enabled": { "type": "boolean", "default": true }
+      }
+    },
+    "service": {
+      "type": "object",
+      "required": ["id", "label", "pattern"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "label": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "icon": {
+          "type": "string",
+          "pattern": "^[0-9A-Fa-f]{4,5}$",
+          "description": "Point de code hexadecimal dans la police Segoe Fluent Icons."
+        },
+        "pattern": { "type": "string", "minLength": 1, "maxLength": 500 }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "required": ["id", "severity", "label", "pattern", "reason"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/identifier" },
+        "severity": { "type": "string", "enum": ["ok", "warn", "broken"] },
+        "label": { "type": "string", "minLength": 1, "maxLength": 20 },
+        "pattern": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "reason": { "type": "string", "minLength": 10, "maxLength": 800 }
+      }
+    },
+    "override": {
+      "type": "object",
+      "required": ["sourceId", "path"],
+      "additionalProperties": false,
+      "properties": {
+        "sourceId": { "$ref": "#/$defs/identifier" },
+        "path": {
+          "type": "string",
+          "pattern": "^[^\\\\]+\\.ps1$",
+          "description": "Chemin relatif a la racine du depot, avec des barres obliques, se terminant par .ps1"
+        },
+        "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "notes": { "type": "string", "maxLength": 800 },
+        "status": { "type": "string", "enum": ["ok", "warn", "broken"] },
+        "label": { "type": "string", "maxLength": 20 },
+        "reason": { "type": "string", "maxLength": 800 },
+        "hidden": { "type": "boolean", "default": false }
+      }
+    }
+  }
+}

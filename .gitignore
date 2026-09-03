@@ -1,0 +1,11 @@
+# Rien de genere ni de sensible ne doit atterrir ici.
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+__pycache__/
+*.py[cod]
+.venv/
+.idea/
+.vscode/*
+!.vscode/settings.json

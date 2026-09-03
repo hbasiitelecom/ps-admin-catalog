@@ -1,0 +1,32 @@
+name: Proposer une source
+description: Ajouter un dépôt GitHub de scripts au catalogue
+labels: [source]
+body:
+  - type: input
+    id: repo
+    attributes:
+      label: Dépôt
+      description: Au format compte/dépôt
+      placeholder: admindroid-community/powershell-scripts
+    validations:
+      required: true
+  - type: input
+    id: branch
+    attributes:
+      label: Branche
+      placeholder: main
+  - type: textarea
+    id: why
+    attributes:
+      label: Ce que cette source apporte
+      description: Quels usages elle couvre, et ce qu'elle n'apporte pas déjà.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Vérifications
+      options:
+        - label: Le dépôt est public et sa licence permet cet usage
+          required: true
+        - label: Les scripts sont compatibles PowerShell 7, ou une règle le signalera

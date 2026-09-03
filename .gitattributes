@@ -1,0 +1,6 @@
+# Le catalogue est lu par PowerShell sur Windows : on impose LF partout
+# pour que la validation de mise en forme soit reproductible.
+* text=auto eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+*.py   text eol=lf

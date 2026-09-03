@@ -1,0 +1,13 @@
+# Les actions sont epinglees sur des SHA. Dependabot les fait remonter
+# proprement quand une nouvelle version parait, plutot que de laisser
+# le depot figé sur une revision qui vieillit.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "ci"
+    labels:
+      - dependances

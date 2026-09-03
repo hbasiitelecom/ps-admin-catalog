@@ -1,0 +1,73 @@
+{
+  "$schema": "./schema/catalog.schema.json",
+  "schemaVersion": 1,
+  "catalogVersion": "1.0.0",
+  "name": "Catalogue PowerShell Microsoft 365",
+  "description": "Sources, regles de compatibilite PowerShell 7 et annotations pour AdminDroid Script Launcher.",
+  "sources": [
+    {
+      "id": "admindroid",
+      "name": "AdminDroid Community",
+      "owner": "admindroid-community",
+      "repo": "powershell-scripts",
+      "branch": "master",
+      "metadataStyle": "admindroid",
+      "enabled": true
+    }
+  ],
+  "services": [
+    {
+      "id": "exo",
+      "label": "Exchange Online",
+      "icon": "E715",
+      "pattern": "Connect-ExchangeOnline"
+    },
+    {
+      "id": "graph",
+      "label": "Microsoft Graph/Entra",
+      "icon": "E753",
+      "pattern": "Connect-MgGraph"
+    },
+    {
+      "id": "spo",
+      "label": "SharePoint/OneDrive",
+      "icon": "E8B7",
+      "pattern": "Connect-PnPOnline|Connect-SPOService"
+    },
+    {
+      "id": "teams",
+      "label": "Microsoft Teams",
+      "icon": "E716",
+      "pattern": "Connect-MicrosoftTeams"
+    },
+    {
+      "id": "scc",
+      "label": "Securite & Conformite",
+      "icon": "E72E",
+      "pattern": "Connect-IPPSSession"
+    },
+    {
+      "id": "aad",
+      "label": "Azure AD (obsolete)",
+      "icon": "E7BA",
+      "pattern": "Connect-MsolService|Connect-AzureAD"
+    }
+  ],
+  "rules": [
+    {
+      "id": "retired-modules",
+      "severity": "broken",
+      "label": "Obsolete",
+      "pattern": "Connect-MsolService|Connect-AzureAD\\b|Import-Module\\s+\\W{0,2}MSOnline|Import-Module\\s+\\W{0,2}AzureAD|\\bGet-Msol|\\bSet-Msol|\\bNew-Msol|\\bGet-AzureAD|\\bSet-AzureAD|\\bNew-AzureAD|\\bGet-WmiObject\\b",
+      "reason": "Ce script s'appuie sur les modules MSOnline / AzureAD (ou sur Get-WmiObject), retires par Microsoft et non supportes par PowerShell 7. Il ne fonctionnera pas en l'etat : l'equivalent moderne passe par Microsoft Graph PowerShell."
+    },
+    {
+      "id": "spo-legacy-module",
+      "severity": "warn",
+      "label": "A verifier",
+      "pattern": "Connect-SPOService|Import-Module\\s+\\W{0,2}Microsoft\\.Online\\.SharePoint\\.PowerShell",
+      "reason": "Ce script utilise le module Microsoft.Online.SharePoint.PowerShell, qui n'est pas nativement compatible PowerShell 7. Importez-le avec : Import-Module Microsoft.Online.SharePoint.PowerShell -UseWindowsPowerShell"
+    }
+  ],
+  "overrides": []
+}

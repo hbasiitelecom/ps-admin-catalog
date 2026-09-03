@@ -1,0 +1,30 @@
+name: Annoter un script
+description: Ajouter une note, corriger un verdict de compatibilité, masquer un script
+labels: [annotation]
+body:
+  - type: input
+    id: path
+    attributes:
+      label: Chemin du script
+      description: Relatif à la racine du dépôt, avec des barres obliques
+      placeholder: Audit File Deletion/AuditFileDeletion.ps1
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Nature de l'annotation
+      options:
+        - Note d'usage
+        - Verdict de compatibilité à corriger
+        - Script à masquer
+        - Renommage de l'intitulé
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: Détail
+      description: Ce que vous avez constaté, sur quelle version, dans quel tenant.
+    validations:
+      required: true
