@@ -139,6 +139,19 @@ def validate(cat: dict) -> set:
         en = s.get("enabled")
         if en is not None and not isinstance(en, bool):
             fail(f"{w} : « enabled » doit etre un booleen.")
+        lay = s.get("layout")
+        if lay is not None and lay not in ("folders", "flat", "tree"):
+            fail(f"{w} : layout « {lay} » inconnu. Valeurs admises : folders, flat, tree.")
+        tr = s.get("trust")
+        if tr is not None and tr not in ("official", "verified", "community", "unknown"):
+            fail(f"{w} : trust « {tr} » inconnu.")
+        for fld in ("include", "exclude"):
+            if s.get(fld) is not None and not isinstance(s[fld], list):
+                fail(f"{w} : « {fld} » doit etre une liste de motifs.")
+        known_src = {"id","name","owner","repo","branch","metadataStyle","enabled",
+                     "layout","include","exclude","trust","license","note"}
+        for extra in sorted(set(s) - known_src):
+            fail(f"{w} : champ inconnu « {extra} ».")
     check_unique(sources, "id", "sources")
 
     # --------------------------------------------------------------- services

@@ -123,6 +123,50 @@
         "enabled": {
           "type": "boolean",
           "default": true
+        },
+        "layout": {
+          "type": "string",
+          "enum": [
+            "folders",
+            "flat",
+            "tree"
+          ],
+          "default": "folders",
+          "description": "Disposition du depot. folders : un dossier = un script. flat : scripts a la racine. tree : parcours recursif avec exclusions."
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Motifs a inclure. Vide = tout, sous reserve des exclusions."
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Motifs a exclure. Vide = liste par defaut (tests, Private, Internal, .github)."
+        },
+        "trust": {
+          "type": "string",
+          "enum": [
+            "official",
+            "verified",
+            "community",
+            "unknown"
+          ],
+          "description": "Niveau de confiance. N'a de valeur que s'il reste discriminant."
+        },
+        "license": {
+          "type": "string",
+          "maxLength": 40,
+          "description": "Licence declaree par le depot, ou 'aucune'."
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Ce qu'il faut savoir avant d'activer cette source."
         }
       }
     },

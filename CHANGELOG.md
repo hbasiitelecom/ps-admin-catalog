@@ -6,6 +6,20 @@ Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles prop
 
 ## [Non publié]
 
+## [1.2.0] — 2026-09-04
+
+### Ajouté
+
+- **Quatorze sources candidates déclarées**, toutes **désactivées par défaut** : elles apparaissent dans la fenêtre de réglages de l'application et s'activent d'un interrupteur, sans rien changer tant qu'on n'y touche pas.
+- Nouveaux champs de source : `layout` (`folders`, `flat`, `tree`), `include`, `exclude`, `trust`, `license` et `note`.
+- `note` porte ce qu'il faut savoir avant d'activer — notamment que huit de ces dépôts sont des **modules** dont les `.ps1` sont des fonctions internes ou des tests Pester, et non des scripts lançables.
+
+### Notes
+
+Licences relevées à l'ajout : Office365ITPros et Maester en MIT, ScubaGear en CC0 (domaine public), Monkey365 en Apache-2.0, Mike-Crowley en GPL-3.0. M365Corner, Devolutions et DCToolbox n'en déclarent aucune.
+
+Microsoft365DSC a pour branche par défaut `Dev`, et non `main`.
+
 ## [1.1.0] — 2026-09-04
 
 ### Ajouté
@@ -33,6 +47,7 @@ Première version publiée du catalogue.
 
 Répartition obtenue sur la source AdminDroid : **168** scripts sans problème détecté, **5** à vérifier, **10** obsolètes.
 
-[Non publié]: https://github.com/hbasiitelecom/ps-admin-catalog/compare/v1.1.0...HEAD
+[Non publié]: https://github.com/hbasiitelecom/ps-admin-catalog/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/hbasiitelecom/ps-admin-catalog/releases/tag/v1.2.0
 [1.1.0]: https://github.com/hbasiitelecom/ps-admin-catalog/releases/tag/v1.1.0
 [1.0.0]: https://github.com/hbasiitelecom/ps-admin-catalog/releases/tag/v1.0.0
