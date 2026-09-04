@@ -61,9 +61,11 @@ jobs:
           set -o pipefail
           try() { if ! out=$("$@" 2>&1); then echo "::error::$* -> $out"; return 1; fi; echo "$out"; }
 
-          if git diff --quiet -- index && [ -z "$(git status --porcelain index)" ]; then
-            echo "Aucun changement : rien a publier."
-            exit 0
+          # index/ est ignore sur main : c'est la presence des fichiers construits,
+          # pas l'etat de l'index git, qui dit s'il y a quelque chose a publier.
+          if ! ls index/*.json >/dev/null 2>&1; then
+            echo "::error::Aucun index construit : rien a publier."
+            exit 1
           fi
 
           git config user.name  "github-actions[bot]"
