@@ -1,6 +1,6 @@
 # Les index précalculés
 
-L'application n'analyse plus les dépôts sur le poste. Elle lit des **index déjà construits**, publiés ici sous `index/`, et ne télécharge un script que lorsqu'on le lance.
+L'application n'analyse plus les dépôts sur le poste. Elle lit des **index déjà construits**, publiés sur la branche [`index`](https://github.com/hbasiitelecom/ps-admin-catalog/tree/index), et ne télécharge un script que lorsqu'on le lance.
 
 Le modèle est celui des fichiers à la demande de OneDrive : le catalogue donne la liste et la fiche complète de chaque script, le fichier lui-même reste en ligne jusqu'au moment où on en a besoin.
 
@@ -12,7 +12,7 @@ Les mêmes quinze sources tiennent en **environ 5 Mo d'index**. Un script demand
 
 ## Ce que contient un index
 
-Un fichier par source, `index/<sourceId>.json` :
+Un fichier par source, à la racine de la branche `index` : `<sourceId>.json`.
 
 | Champ | Rôle |
 |---|---|
@@ -34,13 +34,13 @@ Chaque fiche porte ce que l'application affichait déjà — nom, description, s
 
 `Sha` est ce qui rend le téléchargement vérifiable. L'application recalcule le condensé du fichier reçu et le compare : s'il diffère, le fichier n'est pas celui qui a été analysé, et il n'est pas exécuté.
 
-## `index/manifest.json`
+## `manifest.json`
 
 Le sommaire : pour chaque source, son commit, son nombre de scripts, sa taille et sa date de construction. L'application le lit en premier — quelques kilo-octets — pour savoir ce qui a bougé, et ne retélécharge que les index dont le commit a changé.
 
 ## Comment les index sont construits
 
-`tools/Build-SourceIndex.ps1` clone chaque source en profondeur 1, applique les règles d'éligibilité de la source (`layout`, `include`, `exclude`), analyse chaque script par arbre syntaxique, relève les condensés par `git ls-tree -r`, écrit le JSON, puis supprime le clone.
+`tools/Build-SourceIndex.ps1`, sur `main`, clone chaque source en profondeur 1, applique les règles d'éligibilité de la source (`layout`, `include`, `exclude`), analyse chaque script par arbre syntaxique, relève les condensés par `git ls-tree -r`, écrit le JSON, puis supprime le clone.
 
 L'action `.github/workflows/build-index.yml` l'exécute :
 
@@ -48,7 +48,17 @@ L'action `.github/workflows/build-index.yml` l'exécute :
 - toutes les semaines, le lundi à 4 h UTC, pour suivre les commits des sources ;
 - à la demande, avec le choix des sources à reconstruire et l'option d'inclure les sources désactivées.
 
-Elle valide le catalogue avant de générer, et ne commite `index/` que si quelque chose a changé.
+Elle valide le catalogue avant de générer, et ne publie que si quelque chose a changé.
+
+## Pourquoi une branche à part
+
+`main` est protégée : rien n'y entre sans que le catalogue ait été validé, et le jeton de l'action n'est pas administrateur. Deux voies ont été essayées avant celle-ci.
+
+Un `git push` direct sur `main` est refusé par la protection — c'est le but de la protection, et la lever pour l'action reviendrait à la vider de son sens.
+
+Une demande de fusion avec fusion automatique ne marche pas non plus : **GitHub ne déclenche pas les vérifications requises sur une demande ouverte par l'action elle-même**, par prévention des boucles. La vérification reste en attente, la fusion automatique ne se conclut jamais, et la demande s'accumule chaque semaine.
+
+Les index sont un produit dérivé, pas le catalogue. Ils vivent donc sur la branche `index`, que l'action détient seule et réécrit à chaque construction. `main` reste protégée sans exception, l'action n'y touche jamais, et l'historique de la branche `index` ne s'accumule pas.
 
 ## Ce qui reste possible sans réseau
 

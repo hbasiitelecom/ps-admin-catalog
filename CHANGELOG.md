@@ -6,6 +6,18 @@ Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles prop
 
 ## [Non publié]
 
+## [1.3.1] — 2026-09-04
+
+### Modifié
+
+- **Les index sont publiés sur la branche [`index`](https://github.com/hbasiitelecom/ps-admin-catalog/tree/index)**, plus sur `main`. `main` est protégée et le jeton de l'action n'est pas administrateur : un push direct y est refusé, et une demande de fusion ne se conclut jamais puisque **GitHub ne déclenche pas les vérifications requises sur une demande ouverte par l'action elle-même**. Les index sont un produit dérivé, pas le catalogue : ils sortent de la branche du produit. `main` reste protégée sans aucune dérogation.
+- `indexBaseUrl` pointe désormais sur cette branche.
+
+### Corrigé
+
+- Le splat d'un tableau lie les arguments **par position** : `-Catalog` était pris pour une valeur et `index` atterrissait sur `-TimeoutSeconds`. Table de hachage désormais.
+- Chaque commande de publication qui échoue émet une **annotation d'erreur** : les journaux d'exécution ne sont pas toujours consultables, les annotations le sont.
+
 ## [1.3.0] — 2026-09-04
 
 Le catalogue ne décrit plus seulement où trouver les scripts : il publie l'analyse elle-même.
@@ -20,7 +32,7 @@ Le catalogue ne décrit plus seulement où trouver les scripts : il publie l'ana
 
 ### Notes
 
-Quatre index sont publiés avec cette version — AdminDroid (183 scripts), Office365ITPros (406), Mike Crowley (38) et Exchange4ITPros (14), soit 641 scripts pour 885 Ko. Les onze autres sources seront construites par l'action, à la demande.
+Les quinze sources représentent 3 292 scripts pour environ 3 Mo d'index.
 
 ## [1.2.0] — 2026-09-04
 
