@@ -106,7 +106,7 @@ def validate(cat: dict) -> set:
 
     need(cat, "name", where)
 
-    known = {"$schema", "schemaVersion", "catalogVersion", "name", "description",
+    known = {"$schema", "schemaVersion", "catalogVersion", "name", "description", "okLabel",
              "sources", "services", "rules", "overrides"}
     for extra in sorted(set(cat) - known):
         fail(f"racine : champ inconnu « {extra} ». L'application l'ignorerait silencieusement.")

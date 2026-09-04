@@ -6,6 +6,16 @@ Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles prop
 
 ## [Non publié]
 
+## [1.1.0] — 2026-09-04
+
+### Ajouté
+
+- Champ racine `okLabel` : libellé du badge des scripts sans problème détecté, désormais piloté par le catalogue au lieu d'être codé dans l'application.
+
+### Modifié
+
+- Le badge passe de « PS7 OK » à « **PS7** ». *OK* laissait entendre « prêt à exécuter », alors que la compatibilité, la disponibilité des modules et l'impact sont trois dimensions distinctes.
+
 ## [1.0.0] — 2026-09-03
 
 Première version publiée du catalogue.
@@ -23,5 +33,6 @@ Première version publiée du catalogue.
 
 Répartition obtenue sur la source AdminDroid : **168** scripts sans problème détecté, **5** à vérifier, **10** obsolètes.
 
-[Non publié]: https://github.com/hbasiitelecom/ps-admin-catalog/compare/v1.0.0...HEAD
+[Non publié]: https://github.com/hbasiitelecom/ps-admin-catalog/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/hbasiitelecom/ps-admin-catalog/releases/tag/v1.1.0
 [1.0.0]: https://github.com/hbasiitelecom/ps-admin-catalog/releases/tag/v1.0.0

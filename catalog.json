@@ -1,9 +1,10 @@
 {
   "$schema": "./schema/catalog.schema.json",
   "schemaVersion": 1,
-  "catalogVersion": "1.0.0",
+  "catalogVersion": "1.1.0",
   "name": "Catalogue PowerShell Microsoft 365",
   "description": "Sources, regles de compatibilite PowerShell 7 et annotations pour AdminDroid Script Launcher.",
+  "okLabel": "PS7",
   "sources": [
     {
       "id": "admindroid",
