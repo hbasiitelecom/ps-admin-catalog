@@ -12,7 +12,7 @@
    pwsh tools/Build-SourceIndex.ps1 -Catalog catalog.json -Out index
 
  IMPORTANT : la section « Analyse » ci-dessous doit rester alignee avec la section 4
- de AdminDroid-Launcher.ps1. Le champ indexVersion sert de contrat : l'application
+ de PS-Admin-Launcher.ps1. Le champ indexVersion sert de contrat : l'application
  refuse un index dont la version ne correspond pas a celle qu'elle sait lire, et
  retombe alors sur son analyse locale.
 =====================================================================================
@@ -33,7 +33,7 @@ function Say([string]$m, [string]$c = 'Gray') { Write-Host "  $m" -ForegroundCol
 function Step([string]$m) { Write-Host ''; Write-Host "== $m" -ForegroundColor Cyan }
 
 # ----------------------------------------------------------------------------------
-# Analyse — doit rester alignee avec la section 4 de l'application
+# Analyse - doit rester alignee avec la section 4 de l'application
 # ----------------------------------------------------------------------------------
 $SeverityRank = @{ 'ok' = 0; 'warn' = 1; 'broken' = 2 }
 
@@ -265,7 +265,7 @@ $sources = @($cat.sources | Where-Object {
 })
 
 Write-Host ""
-Write-Host "Catalogue $($cat.catalogVersion) — $($sources.Count) source(s) a indexer" -ForegroundColor White
+Write-Host "Catalogue $($cat.catalogVersion) - $($sources.Count) source(s) a indexer" -ForegroundColor White
 
 $summary = [System.Collections.Generic.List[object]]::new()
 foreach ($src in $sources) {

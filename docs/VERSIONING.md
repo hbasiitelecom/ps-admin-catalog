@@ -2,7 +2,7 @@
 
 Deux champs versionnent des choses différentes. Les confondre est la principale source d'erreur.
 
-## `schemaVersion` — le contrat avec l'application
+## `schemaVersion` - le contrat avec l'application
 
 Un entier. Il décrit la **structure** du fichier, pas son contenu.
 
@@ -12,26 +12,26 @@ Il ne bouge que lorsqu'un changement rendrait le fichier illisible pour une appl
 
 Valeur actuelle : **1**.
 
-## `catalogVersion` — la version du contenu
+## `catalogVersion` - la version du contenu
 
 Format [SemVer](https://semver.org/lang/fr/) : `MAJEUR.MINEUR.CORRECTIF`.
 
-L'application compare simplement cette chaîne à celle de sa copie locale : toute différence déclenche la pastille « mise à jour disponible ». Le découpage sémantique ne sert donc pas à la machine — il sert aux humains, pour savoir en un coup d'œil si une mise à jour est anodine ou si elle demande de l'attention.
+L'application compare simplement cette chaîne à celle de sa copie locale : toute différence déclenche la pastille « mise à jour disponible ». Le découpage sémantique ne sert donc pas à la machine - il sert aux humains, pour savoir en un coup d'œil si une mise à jour est anodine ou si elle demande de l'attention.
 
-### MAJEUR — quelque chose casse chez l'utilisateur
+### MAJEUR - quelque chose casse chez l'utilisateur
 
 - **Une source est retirée, ou son `id` change.** C'est le cas le plus important. Les favoris et l'historique désignent les scripts par `<id de source>:<chemin>` ; changer l'identifiant rend ces références orphelines, sans que l'utilisateur comprenne pourquoi ses favoris ont disparu. *Le validateur refuse ce changement s'il n'est pas accompagné d'un incrément MAJEUR.*
 - Un `id` de service ou de règle disparaît alors qu'une couche locale s'y référait.
 - Le sens d'un champ change à contenu identique.
 
-### MINEUR — quelque chose s'ajoute
+### MINEUR - quelque chose s'ajoute
 
 - Une source ajoutée.
 - Une règle de compatibilité ajoutée, ou une règle existante élargie à de nouveaux cas.
 - Un service ajouté.
 - Un lot d'annotations sur des scripts jusque-là non documentés.
 
-### CORRECTIF — quelque chose se corrige, sans rien déplacer
+### CORRECTIF - quelque chose se corrige, sans rien déplacer
 
 - Reformulation d'un `reason` ou d'un `label`.
 - Correction d'une expression régulière qui produisait un faux positif ou un faux négatif.
@@ -60,4 +60,4 @@ Le versionnage calendaire (`2026.09.03`) conviendrait à un contenu qui n'est qu
 
 Un administrateur qui voit passer `1.4.2 → 1.4.3` sait qu'il peut appliquer sans réfléchir. `1.4.3 → 2.0.0` lui dit d'aller lire le journal avant. Une date ne dit rien de tout ça.
 
-Le revers assumé : il faut décider du niveau à chaque changement. Le validateur automatise le cas le plus coûteux — la source retirée ou renommée — et laisse le reste au jugement.
+Le revers assumé : il faut décider du niveau à chaque changement. Le validateur automatise le cas le plus coûteux - la source retirée ou renommée - et laisse le reste au jugement.

@@ -1,9 +1,9 @@
 {
   "$schema": "./schema/catalog.schema.json",
   "schemaVersion": 1,
-  "catalogVersion": "1.3.1",
+  "catalogVersion": "1.3.2",
   "name": "Catalogue PowerShell Microsoft 365",
-  "description": "Sources, regles de compatibilite PowerShell 7 et annotations pour AdminDroid Script Launcher.",
+  "description": "Sources, regles de compatibilite PowerShell 7, index publies et annotations pour PS Admin Launcher.",
   "okLabel": "PS7",
   "indexBaseUrl": "https://raw.githubusercontent.com/hbasiitelecom/ps-admin-catalog/index/",
   "sources": [

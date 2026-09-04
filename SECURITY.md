@@ -42,4 +42,4 @@ Ce qu'un catalogue hostile pourrait néanmoins faire : faire apparaître un dép
 
 Pour une vulnérabilité, n'ouvrez pas de ticket public : utilisez l'onglet **Security → Report a vulnerability** du dépôt, ou contactez directement le mainteneur.
 
-Pour une erreur de contenu — un script marqué à tort comme valide, une source douteuse —, un ticket public convient et vaut mieux qu'un silence.
+Pour une erreur de contenu - un script marqué à tort comme valide, une source douteuse -, un ticket public convient et vaut mieux qu'un silence.

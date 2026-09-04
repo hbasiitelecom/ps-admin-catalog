@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Validateur du catalogue AdminDroid Script Launcher.
+Validateur du catalogue PS Admin Launcher.
 
 Sans aucune dependance : uniquement la bibliotheque standard de Python.
-C'est deliberé — ce script s'execute dans la CI, et n'installer aucun paquet
+C'est deliberé - ce script s'execute dans la CI, et n'installer aucun paquet
 tiers supprime toute surface d'attaque par la chaine d'approvisionnement.
 
 Il verifie ce qu'un JSON Schema ne peut pas verifier seul :
@@ -245,12 +245,12 @@ def compare_baseline(cat: dict, baseline_path: Path) -> None:
     try:
         old = json.loads(baseline_path.read_text(encoding="utf-8"))
     except Exception as exc:
-        note(f"reference illisible ({exc}) — comparaison de version ignoree.")
+        note(f"reference illisible ({exc}) - comparaison de version ignoree.")
         return
 
     old_v, new_v = old.get("catalogVersion"), cat.get("catalogVersion")
     if not (isinstance(old_v, str) and SEMVER_RE.match(old_v)):
-        note("la reference n'a pas de catalogVersion SemVer — comparaison ignoree.")
+        note("la reference n'a pas de catalogVersion SemVer - comparaison ignoree.")
         return
     if not (isinstance(new_v, str) and SEMVER_RE.match(new_v)):
         return
@@ -296,7 +296,7 @@ def check_format(path: Path, cat: dict) -> None:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Valide un catalogue AdminDroid Script Launcher.")
+    ap = argparse.ArgumentParser(description="Valide un catalogue PS Admin Launcher.")
     ap.add_argument("catalog", type=Path, help="chemin du catalog.json")
     ap.add_argument("--baseline", type=Path, help="version de reference, pour exiger l'incrementation")
     ap.add_argument("--check-format", action="store_true", help="exige une mise en forme canonique")
@@ -330,7 +330,7 @@ def main() -> int:
         print(f"\n{len(problems)} probleme(s). Catalogue refuse.", file=sys.stderr)
         return 1
 
-    print(f"Catalogue valide — version {cat.get('catalogVersion')}, "
+    print(f"Catalogue valide - version {cat.get('catalogVersion')}, "
           f"{len(cat.get('sources') or [])} source(s), "
           f"{len(cat.get('services') or [])} service(s), "
           f"{len(cat.get('rules') or [])} regle(s), "

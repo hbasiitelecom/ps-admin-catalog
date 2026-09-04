@@ -17,7 +17,7 @@ Les scripts référencés **ne sont pas couverts par la licence de ce dépôt**.
 
 ### admindroid-community/powershell-scripts
 
-Au 3 septembre 2026, ce dépôt est **public mais ne déclare aucune licence**. En l'absence de licence explicite, le droit d'auteur s'applique par défaut : tous droits réservés à ses auteurs. Les seuls droits accordés sont ceux que les conditions d'utilisation de GitHub attachent à un dépôt public — le consulter et le dupliquer sur la plateforme.
+Au 3 septembre 2026, ce dépôt est **public mais ne déclare aucune licence**. En l'absence de licence explicite, le droit d'auteur s'applique par défaut : tous droits réservés à ses auteurs. Les seuls droits accordés sont ceux que les conditions d'utilisation de GitHub attachent à un dépôt public - le consulter et le dupliquer sur la plateforme.
 
 Ce que cela implique concrètement :
 

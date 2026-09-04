@@ -6,7 +6,7 @@ Le modèle est celui des fichiers à la demande de OneDrive : le catalogue donne
 
 ## Pourquoi
 
-Activer les quinze sources revenait à cloner **environ 500 Mo** — Microsoft365DSC pèse 252 Mo à lui seul, Maester 119 Mo — puis à analyser près de cinq mille fichiers par arbre syntaxique. Quatre-vingt-dix secondes, sur le fil d'exécution de l'interface : la fenêtre se figeait.
+Activer les quinze sources revenait à cloner **environ 500 Mo** - Microsoft365DSC pèse 252 Mo à lui seul, Maester 119 Mo - puis à analyser près de cinq mille fichiers par arbre syntaxique. Quatre-vingt-dix secondes, sur le fil d'exécution de l'interface : la fenêtre se figeait.
 
 Les mêmes quinze sources tiennent en **environ 5 Mo d'index**. Un script demandé se télécharge en un appel, autour de 400 ms pour 34 Ko.
 
@@ -27,7 +27,7 @@ Un fichier par source, à la racine de la branche `index` : `<sourceId>.json`.
 
 `rawBase` est épinglée sur le commit, jamais sur la branche : le fichier téléchargé est celui qui a été analysé, et pas une version poussée entre-temps. L'URL d'un script est `rawBase + RelPath`, celle de son README `rawBase + Folder + "/README.md"` quand `HasReadme` vaut vrai.
 
-Chaque fiche porte ce que l'application affichait déjà — nom, description, service, statut de compatibilité, impact réel, commandes appelées, modules, permissions Graph, bloc `param()` avec `ValidateSet` et paramètres sensibles — plus deux champs propres au mode à la demande :
+Chaque fiche porte ce que l'application affichait déjà - nom, description, service, statut de compatibilité, impact réel, commandes appelées, modules, permissions Graph, bloc `param()` avec `ValidateSet` et paramètres sensibles - plus deux champs propres au mode à la demande :
 
 - `Bytes` : la taille, affichée avant téléchargement
 - `Sha` : le **condensé d'objet git** du fichier, `sha1("blob <taille>\0" + contenu)`
@@ -36,7 +36,7 @@ Chaque fiche porte ce que l'application affichait déjà — nom, description, s
 
 ## `manifest.json`
 
-Le sommaire : pour chaque source, son commit, son nombre de scripts, sa taille et sa date de construction. L'application le lit en premier — quelques kilo-octets — pour savoir ce qui a bougé, et ne retélécharge que les index dont le commit a changé.
+Le sommaire : pour chaque source, son commit, son nombre de scripts, sa taille et sa date de construction. L'application le lit en premier - quelques kilo-octets - pour savoir ce qui a bougé, et ne retélécharge que les index dont le commit a changé.
 
 ## Comment les index sont construits
 
@@ -54,7 +54,7 @@ Elle valide le catalogue avant de générer, et ne publie que si quelque chose a
 
 `main` est protégée : rien n'y entre sans que le catalogue ait été validé, et le jeton de l'action n'est pas administrateur. Deux voies ont été essayées avant celle-ci.
 
-Un `git push` direct sur `main` est refusé par la protection — c'est le but de la protection, et la lever pour l'action reviendrait à la vider de son sens.
+Un `git push` direct sur `main` est refusé par la protection - c'est le but de la protection, et la lever pour l'action reviendrait à la vider de son sens.
 
 Une demande de fusion avec fusion automatique ne marche pas non plus : **GitHub ne déclenche pas les vérifications requises sur une demande ouverte par l'action elle-même**, par prévention des boucles. La vérification reste en attente, la fusion automatique ne se conclut jamais, et la demande s'accumule chaque semaine.
 
@@ -62,7 +62,7 @@ Les index sont un produit dérivé, pas le catalogue. Ils vivent donc sur la bra
 
 ## Ce qui reste possible sans réseau
 
-Les index téléchargés et les scripts déjà lancés sont conservés dans le cache local. Un script déjà téléchargé se relance hors ligne ; un script jamais ouvert ne peut pas l'être — c'est le compromis assumé du modèle.
+Les index téléchargés et les scripts déjà lancés sont conservés dans le cache local. Un script déjà téléchargé se relance hors ligne ; un script jamais ouvert ne peut pas l'être - c'est le compromis assumé du modèle.
 
 ## Si `indexBaseUrl` est absente
 

@@ -40,7 +40,7 @@ L'application le télécharge, le met en cache localement, et signale discrètem
 { "id": "exo", "label": "Exchange Online", "icon": "E715", "pattern": "Connect-ExchangeOnline" }
 ```
 
-Un script appartient au service dès que son code correspond à `pattern` (expression régulière .NET). Un script peut appartenir à plusieurs services, ou à aucun — il tombe alors dans « Autre / local ». `icon` est un point de code hexadécimal de la police Segoe Fluent Icons.
+Un script appartient au service dès que son code correspond à `pattern` (expression régulière .NET). Un script peut appartenir à plusieurs services, ou à aucun - il tombe alors dans « Autre / local ». `icon` est un point de code hexadécimal de la police Segoe Fluent Icons.
 
 ### `rules`
 
@@ -84,7 +84,7 @@ C'est le bon endroit pour capitaliser : « celui-ci ne marche pas chez nous », 
 ## Couche locale
 
 Chaque machine peut avoir un `catalog.local.json` dans
-`%LOCALAPPDATA%\AdminDroidLauncher\catalog\`, de même structure. Il est fusionné **par-dessus** le catalogue partagé — les entrées locales gagnent, par `id` pour les sources, services et règles, par `sourceId` + `path` pour les surcharges.
+`%LOCALAPPDATA%\PSAdminLauncher\catalog\`, de même structure. Il est fusionné **par-dessus** le catalogue partagé - les entrées locales gagnent, par `id` pour les sources, services et règles, par `sourceId` + `path` pour les surcharges.
 
 Ce fichier n'est **jamais** touché par une mise à jour du catalogue. C'est là que vont les essais, les sources personnelles et les annotations qui n'ont pas vocation à être partagées.
 
@@ -94,7 +94,7 @@ Ce fichier n'est **jamais** touché par une mise à jour du catalogue. C'est là
 |---|---|---|
 | `catalog\catalog.json` | copie du catalogue partagé | remplacé sur demande |
 | `catalog\catalog.local.json` | ta couche personnelle | jamais touché |
-| `profile\profile.json` | favoris, historique, thème, URL du catalogue | jamais touché — export/import manuel |
+| `profile\profile.json` | favoris, historique, thème, URL du catalogue | jamais touché - export/import manuel |
 | `repos\<id>\` | clones des dépôts | cache, retéléchargeable |
 | `backup\` | catalogues précédents | conservés à chaque mise à jour |
 
@@ -105,8 +105,8 @@ Ce fichier n'est **jamais** touché par une mise à jour du catalogue. C'est là
 - unicité des `id` au sein de `sources`, `services` et `rules`
 - unicité du couple `sourceId` + `path` dans `overrides`
 - existence de la source référencée par chaque annotation
-- **compilation effective** de chaque expression régulière — un motif invalide ferait échouer l'analyse côté application
+- **compilation effective** de chaque expression régulière - un motif invalide ferait échouer l'analyse côté application
 - absence de quantificateurs imbriqués du type `(a+)+`, qui peuvent faire exploser le temps d'analyse sur un fichier bien choisi
-- caractères autorisés dans `owner`, `repo` et `branch` — l'application construit l'URL GitHub à partir de ces champs
+- caractères autorisés dans `owner`, `repo` et `branch` - l'application construit l'URL GitHub à partir de ces champs
 - mise en forme canonique du fichier (indentation de 2, UTF-8 sans BOM, fins de ligne LF), pour que les différences restent lisibles
 - incrémentation de `catalogVersion` quand le contenu change, et incrément MAJEUR quand une source disparaît

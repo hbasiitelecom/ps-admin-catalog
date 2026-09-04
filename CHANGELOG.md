@@ -6,7 +6,16 @@ Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles prop
 
 ## [Non publié]
 
-## [1.3.1] — 2026-09-04
+## [1.3.2] - 2026-09-04
+
+### Modifié
+
+- **L'application qui consomme ce catalogue s'appelle désormais PS Admin Launcher**, et non plus AdminDroid Script Launcher : elle sert quinze sources, pas une. Le nom du produit disparaît de la `description` du catalogue, du titre du schéma, de l'en-tête du validateur et d'un commentaire du générateur d'index.
+- La source `admindroid` ne bouge pas : son identifiant, son nom, son propriétaire et l'attribution de `NOTICE.md` restent tels quels. C'est une source référencée, pas une marque de produit - et la clause de non-affiliation est plus nécessaire qu'avant, pas moins.
+- Les modèles de tickets renvoyaient vers le seul dépôt AdminDroid pour les questions portant sur un script ; ils renvoient maintenant vers le catalogue, qui liste les quinze dépôts d'origine.
+- Les tirets cadratins cèdent la place à des tirets simples dans tous les fichiers du dépôt.
+
+## [1.3.1] - 2026-09-04
 
 ### Modifié
 
@@ -18,14 +27,14 @@ Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles prop
 - Le splat d'un tableau lie les arguments **par position** : `-Catalog` était pris pour une valeur et `index` atterrissait sur `-TimeoutSeconds`. Table de hachage désormais.
 - Chaque commande de publication qui échoue émet une **annotation d'erreur** : les journaux d'exécution ne sont pas toujours consultables, les annotations le sont.
 
-## [1.3.0] — 2026-09-04
+## [1.3.0] - 2026-09-04
 
 Le catalogue ne décrit plus seulement où trouver les scripts : il publie l'analyse elle-même.
 
 ### Ajouté
 
 - **Index précalculés** sous `index/`, un fichier par source plus un `index/manifest.json`. L'application n'analyse plus les dépôts sur le poste : elle lit l'index et ne télécharge un script qu'au moment de le lancer. Quinze sources actives représentaient environ 500 Mo de clones et quatre-vingt-dix secondes d'analyse ; les index pèsent environ 5 Mo. Format décrit dans [docs/INDEX.md](docs/INDEX.md).
-- Champ racine **`indexBaseUrl`**, facultatif : la base où l'application lit les index. Absent, elle revient au clonage et à l'analyse locale — les deux modes coexistent, aucun n'est retiré.
+- Champ racine **`indexBaseUrl`**, facultatif : la base où l'application lit les index. Absent, elle revient au clonage et à l'analyse locale - les deux modes coexistent, aucun n'est retiré.
 - Chaque fiche de script porte sa **taille** et son **condensé d'objet git**. L'application recalcule le condensé du fichier téléchargé et refuse de l'exécuter s'il diffère de celui qui a été analysé.
 - `rawBase` est **épinglée sur le commit analysé**, jamais sur la branche : le fichier téléchargé est celui qui a été décrit, pas une version poussée entre-temps.
 - **`tools/Build-SourceIndex.ps1`** et l'action **`.github/workflows/build-index.yml`** : construction à chaque modification du catalogue ou du générateur, chaque lundi à 4 h UTC, et à la demande, source par source.
@@ -34,13 +43,13 @@ Le catalogue ne décrit plus seulement où trouver les scripts : il publie l'ana
 
 Les quinze sources représentent 3 292 scripts pour environ 3 Mo d'index.
 
-## [1.2.0] — 2026-09-04
+## [1.2.0] - 2026-09-04
 
 ### Ajouté
 
 - **Quatorze sources candidates déclarées**, toutes **désactivées par défaut** : elles apparaissent dans la fenêtre de réglages de l'application et s'activent d'un interrupteur, sans rien changer tant qu'on n'y touche pas.
 - Nouveaux champs de source : `layout` (`folders`, `flat`, `tree`), `include`, `exclude`, `trust`, `license` et `note`.
-- `note` porte ce qu'il faut savoir avant d'activer — notamment que huit de ces dépôts sont des **modules** dont les `.ps1` sont des fonctions internes ou des tests Pester, et non des scripts lançables.
+- `note` porte ce qu'il faut savoir avant d'activer - notamment que huit de ces dépôts sont des **modules** dont les `.ps1` sont des fonctions internes ou des tests Pester, et non des scripts lançables.
 
 ### Notes
 
@@ -48,7 +57,7 @@ Licences relevées à l'ajout : Office365ITPros et Maester en MIT, ScubaGear en 
 
 Microsoft365DSC a pour branche par défaut `Dev`, et non `main`.
 
-## [1.1.0] — 2026-09-04
+## [1.1.0] - 2026-09-04
 
 ### Ajouté
 
@@ -58,7 +67,7 @@ Microsoft365DSC a pour branche par défaut `Dev`, et non `main`.
 
 - Le badge passe de « PS7 OK » à « **PS7** ». *OK* laissait entendre « prêt à exécuter », alors que la compatibilité, la disponibilité des modules et l'impact sont trois dimensions distinctes.
 
-## [1.0.0] — 2026-09-03
+## [1.0.0] - 2026-09-03
 
 Première version publiée du catalogue.
 

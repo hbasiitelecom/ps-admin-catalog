@@ -19,7 +19,7 @@ gh pr create --fill
 
 ## Messages de commit
 
-Format [Conventional Commits](https://www.conventionalcommits.org/fr/) — `type(portée): description à l'infinitif`.
+Format [Conventional Commits](https://www.conventionalcommits.org/fr/) - `type(portée): description à l'infinitif`.
 
 | Type | Emploi |
 |---|---|
@@ -35,7 +35,7 @@ L'intérêt n'est pas cosmétique : `git log --oneline --grep '^fix'` répond en
 
 ## Les trois choses à ne pas oublier
 
-**Incrémenter `catalogVersion`.** Sans ça, aucune installation ne verra la mise à jour — le fichier changera en ligne et personne ne le saura. La CI refuse un contenu modifié à version constante. Le niveau à choisir est décrit dans [docs/VERSIONING.md](docs/VERSIONING.md).
+**Incrémenter `catalogVersion`.** Sans ça, aucune installation ne verra la mise à jour - le fichier changera en ligne et personne ne le saura. La CI refuse un contenu modifié à version constante. Le niveau à choisir est décrit dans [docs/VERSIONING.md](docs/VERSIONING.md).
 
 **Compléter `CHANGELOG.md`** sous « Non publié ». Un journal rédigé au moment du changement est juste ; reconstitué six mois plus tard, il est faux.
 
@@ -49,9 +49,9 @@ grep -rlE "votre|motif" /chemin/vers/le/depot --include='*.ps1' | wc -l
 
 Une règle porte trois messages, dans cet ordre d'importance :
 
-1. `severity` — ce que l'application en fait. `broken` masque le script par défaut et demande confirmation avant lancement ; `warn` affiche un bandeau ; `ok` ne change rien.
-2. `reason` — ce que l'utilisateur lit. Il doit comprendre **pourquoi** et **quoi faire à la place**. « Module retiré » ne suffit pas ; « les modules MSOnline et AzureAD ont été retirés par Microsoft, l'équivalent moderne passe par Microsoft Graph PowerShell » lui donne la sortie.
-3. `pattern` — comment on détecte. Ancré sur ce qui casse réellement, pas sur un nom de fichier ou un commentaire.
+1. `severity` - ce que l'application en fait. `broken` masque le script par défaut et demande confirmation avant lancement ; `warn` affiche un bandeau ; `ok` ne change rien.
+2. `reason` - ce que l'utilisateur lit. Il doit comprendre **pourquoi** et **quoi faire à la place**. « Module retiré » ne suffit pas ; « les modules MSOnline et AzureAD ont été retirés par Microsoft, l'équivalent moderne passe par Microsoft Graph PowerShell » lui donne la sortie.
+3. `pattern` - comment on détecte. Ancré sur ce qui casse réellement, pas sur un nom de fichier ou un commentaire.
 
 Attention aux échappements JSON : `\b` s'écrit `\\b`, `\s` s'écrit `\\s`, `\.` s'écrit `\\.`.
 

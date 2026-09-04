@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/hbasiitelecom/ps-admin-catalog/main/schema/catalog.schema.json",
-  "title": "AdminDroid Script Launcher — catalogue",
+  "title": "PS Admin Launcher - catalogue",
   "description": "Base de donnees partagee : depots sources, categories de services, regles de compatibilite PowerShell 7 et annotations par script.",
   "type": "object",
   "required": [
