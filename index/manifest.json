@@ -1,7 +1,7 @@
 {
   "indexVersion": 1,
-  "catalogVersion": "1.2.0",
-  "builtUtc": "2026-09-04T02:08:11.9678191Z",
+  "catalogVersion": "1.3.0",
+  "builtUtc": "2026-09-04T02:24:21.7416748Z",
   "sources": [
     {
       "id": "admindroid",
@@ -9,7 +9,7 @@
       "commit": "e3efc54765f7a7b245320b3408b0a081fa3fc7d3",
       "scripts": 183,
       "sizeKb": 401,
-      "builtUtc": "2026-09-04T02:08:04.4721149Z"
+      "builtUtc": "2026-09-04T02:23:49.1508008Z"
     },
     {
       "id": "o365itpros",
@@ -17,7 +17,7 @@
       "commit": "9aaae73d2026ad6a9c06a0082a09b7fab37933c0",
       "scripts": 406,
       "sizeKb": 406,
-      "builtUtc": "2026-09-04T02:08:09.7222130Z"
+      "builtUtc": "2026-09-04T02:23:53.9445027Z"
     },
     {
       "id": "mike-crowley",
@@ -25,7 +25,15 @@
       "commit": "b00d0a5a847f74327b81ded2f1487472cd07686d",
       "scripts": 38,
       "sizeKb": 50,
-      "builtUtc": "2026-09-04T02:08:11.0307758Z"
+      "builtUtc": "2026-09-04T02:23:55.2941623Z"
+    },
+    {
+      "id": "m365corner",
+      "name": "M365Corner",
+      "commit": "225e6228087e2b4bfa8e7893aa420dfd189fa3b3",
+      "scripts": 44,
+      "sizeKb": 46,
+      "builtUtc": "2026-09-04T02:23:56.5883022Z"
     },
     {
       "id": "exchange4itpros",
@@ -33,7 +41,87 @@
       "commit": "252ad20a76bab40aa04d5985e2330b425303c443",
       "scripts": 14,
       "sizeKb": 28,
-      "builtUtc": "2026-09-04T02:08:11.9605896Z"
+      "builtUtc": "2026-09-04T02:23:57.6605087Z"
+    },
+    {
+      "id": "maester",
+      "name": "Maester",
+      "commit": "31b6d159acf3dde9a90c2d0b68c2852ab81672f1",
+      "scripts": 721,
+      "sizeKb": 618,
+      "builtUtc": "2026-09-04T02:24:02.3894453Z"
+    },
+    {
+      "id": "scubagear",
+      "name": "CISA ScubaGear",
+      "commit": "a23c1ac493a2bb194e17108b2e6821e9529b43c7",
+      "scripts": 27,
+      "sizeKb": 25,
+      "builtUtc": "2026-09-04T02:24:03.9812321Z"
+    },
+    {
+      "id": "entraexporter",
+      "name": "Microsoft EntraExporter",
+      "commit": "ce0d04cf096611183258d65a8e5aa487c55a1f5f",
+      "scripts": 15,
+      "sizeKb": 14,
+      "builtUtc": "2026-09-04T02:24:04.6969941Z"
+    },
+    {
+      "id": "m365dsc",
+      "name": "Microsoft365DSC",
+      "commit": "4e3b8ecf21026973ef26e9fe70271a56bbf5df3a",
+      "scripts": 1197,
+      "sizeKb": 887,
+      "builtUtc": "2026-09-04T02:24:13.4807863Z"
+    },
+    {
+      "id": "monkey365",
+      "name": "Monkey365",
+      "commit": "7cfa39019496eb18ab920d6876e69e0b111613bf",
+      "scripts": 391,
+      "sizeKb": 325,
+      "builtUtc": "2026-09-04T02:24:16.7153520Z"
+    },
+    {
+      "id": "msendpointmgr",
+      "name": "MSEndpointMgr - Intune",
+      "commit": "dae99c9e8d33427cbe42326598f928943d8d33d3",
+      "scripts": 62,
+      "sizeKb": 84,
+      "builtUtc": "2026-09-04T02:24:17.8769428Z"
+    },
+    {
+      "id": "devolutions",
+      "name": "Devolutions ScriptLibrary",
+      "commit": "9fda8b12288515e4f9eaf45a7602de53e3dadf85",
+      "scripts": 19,
+      "sizeKb": 27,
+      "builtUtc": "2026-09-04T02:24:18.6012922Z"
+    },
+    {
+      "id": "dctoolbox",
+      "name": "DCToolbox",
+      "commit": "1fb7b9d08d6598c7f948a36c69ded011639a3b85",
+      "scripts": 0,
+      "sizeKb": 0,
+      "builtUtc": "2026-09-04T02:24:19.2154346Z"
+    },
+    {
+      "id": "365inspect",
+      "name": "365Inspect",
+      "commit": "1a97f595b020cdc3b36b86ed49fec31de0ca6c04",
+      "scripts": 112,
+      "sizeKb": 97,
+      "builtUtc": "2026-09-04T02:24:20.7803369Z"
+    },
+    {
+      "id": "mggraph-intune",
+      "name": "Microsoft Graph Intune Samples",
+      "commit": "7adb49130e4b447b3b695b3afc521292c0e357d0",
+      "scripts": 63,
+      "sizeKb": 68,
+      "builtUtc": "2026-09-04T02:24:21.7324966Z"
     }
   ]
 }
