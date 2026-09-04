@@ -60,6 +60,11 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: auto/index
         run: |
+          set -o pipefail
+          # Toute erreur remonte en annotation : les journaux d'execution ne sont
+          # pas toujours accessibles, une annotation l'est toujours.
+          try() { if ! out=$("$@" 2>&1); then echo "::error::$* -> $out"; return 1; fi; echo "$out"; }
+
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index
@@ -67,17 +72,27 @@ jobs:
             echo "Aucun changement : rien a publier."
             exit 0
           fi
+
           # main exige la validation du catalogue avant fusion, et le jeton de
-          # l'action n'est pas administrateur : il passe donc par une demande de
-          # fusion, que la fusion automatique conclut des que la validation passe.
+          # l'action n'est pas administrateur : un push direct est refuse. On passe
+          # donc par une demande de fusion, conclue automatiquement des que la
+          # validation passe. La protection de branche reste entiere.
           git checkout -B "$BRANCH"
-          git commit -m "chore(index): reconstruction automatique des index"
-          git push --force-with-lease origin "$BRANCH"
-          open=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // ""')
+          try git commit -m "chore(index): reconstruction automatique des index"
+          # Branche detenue par l'action seule : la reecrire est sans risque, et
+          # --force-with-lease echoue faute de reference de suivi apres checkout -B.
+          try git push --force origin "HEAD:refs/heads/$BRANCH"
+
+          open=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // ""' || echo "")
           if [ -z "$open" ]; then
-            gh pr create --base main --head "$BRANCH" \
-              --title "chore(index): reconstruction automatique des index" \
-              --body "Index reconstruits par l'action \`Construire les index\`. Seul \`index/\` change ; le catalogue n'est pas touche."
+            if ! try gh pr create --base main --head "$BRANCH" \
+                 --title "chore(index): reconstruction automatique des index" \
+                 --body "Index reconstruits par l'action \`Construire les index\`. Seul \`index/\` change ; le catalogue n'est pas touche."; then
+              echo "::error::Creation de la demande de fusion refusee. Verifier Settings > Actions > General > « Allow GitHub Actions to create and approve pull requests »."
+              exit 1
+            fi
           fi
-          gh pr merge "$BRANCH" --squash --auto --delete-branch || \
-            echo "Fusion automatique indisponible : la demande de fusion reste ouverte."
+
+          if ! gh pr merge "$BRANCH" --squash --auto --delete-branch 2>&1; then
+            echo "::warning::Fusion automatique indisponible : la demande de fusion reste ouverte, a fusionner a la main."
+          fi
