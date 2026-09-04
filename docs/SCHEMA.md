@@ -13,6 +13,7 @@ L'application le télécharge, le met en cache localement, et signale discrètem
 | `schemaVersion` | oui | `1`. Une application plus ancienne refuse un schéma plus récent. |
 | `catalogVersion` | oui | SemVer `MAJEUR.MINEUR.CORRECTIF`. Toute différence avec la version locale déclenche la notification. Voir [VERSIONING.md](VERSIONING.md). |
 | `name` | oui | Nom affiché dans la barre d'état et la fenêtre de réglages. |
+| `indexBaseUrl` | non | Base des index précalculés, terminée par `/`. L'application y lit `manifest.json` puis `<sourceId>.json` au lieu de cloner et d'analyser. Absente : analyse locale. Voir [INDEX.md](INDEX.md). |
 | `sources` | oui | Dépôts GitHub à indexer. |
 | `services` | non | Catégories du rail de navigation. |
 | `rules` | non | Règles de compatibilité PowerShell 7. |

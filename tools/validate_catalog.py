@@ -107,9 +107,17 @@ def validate(cat: dict) -> set:
     need(cat, "name", where)
 
     known = {"$schema", "schemaVersion", "catalogVersion", "name", "description", "okLabel",
-             "sources", "services", "rules", "overrides"}
+             "indexBaseUrl", "sources", "services", "rules", "overrides"}
     for extra in sorted(set(cat) - known):
         fail(f"racine : champ inconnu « {extra} ». L'application l'ignorerait silencieusement.")
+
+    ibu = cat.get("indexBaseUrl")
+    if ibu is not None:
+        if not isinstance(ibu, str) or not ibu.startswith("https://"):
+            fail("racine : « indexBaseUrl » doit etre une URL https.")
+        elif not ibu.endswith("/"):
+            fail("racine : « indexBaseUrl » doit se terminer par une barre oblique, "
+                 "l'application y concatene <sourceId>.json.")
 
     # ---------------------------------------------------------------- sources
     sources = cat.get("sources") or []

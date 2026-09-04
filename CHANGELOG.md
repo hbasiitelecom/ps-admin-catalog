@@ -6,6 +6,22 @@ Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles prop
 
 ## [Non publié]
 
+## [1.3.0] — 2026-09-04
+
+Le catalogue ne décrit plus seulement où trouver les scripts : il publie l'analyse elle-même.
+
+### Ajouté
+
+- **Index précalculés** sous `index/`, un fichier par source plus un `index/manifest.json`. L'application n'analyse plus les dépôts sur le poste : elle lit l'index et ne télécharge un script qu'au moment de le lancer. Quinze sources actives représentaient environ 500 Mo de clones et quatre-vingt-dix secondes d'analyse ; les index pèsent environ 5 Mo. Format décrit dans [docs/INDEX.md](docs/INDEX.md).
+- Champ racine **`indexBaseUrl`**, facultatif : la base où l'application lit les index. Absent, elle revient au clonage et à l'analyse locale — les deux modes coexistent, aucun n'est retiré.
+- Chaque fiche de script porte sa **taille** et son **condensé d'objet git**. L'application recalcule le condensé du fichier téléchargé et refuse de l'exécuter s'il diffère de celui qui a été analysé.
+- `rawBase` est **épinglée sur le commit analysé**, jamais sur la branche : le fichier téléchargé est celui qui a été décrit, pas une version poussée entre-temps.
+- **`tools/Build-SourceIndex.ps1`** et l'action **`.github/workflows/build-index.yml`** : construction à chaque modification du catalogue ou du générateur, chaque lundi à 4 h UTC, et à la demande, source par source.
+
+### Notes
+
+Quatre index sont publiés avec cette version — AdminDroid (183 scripts), Office365ITPros (406), Mike Crowley (38) et Exchange4ITPros (14), soit 641 scripts pour 885 Ko. Les onze autres sources seront construites par l'action, à la demande.
+
 ## [1.2.0] — 2026-09-04
 
 ### Ajouté

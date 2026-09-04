@@ -1,0 +1,39 @@
+{
+  "indexVersion": 1,
+  "catalogVersion": "1.2.0",
+  "builtUtc": "2026-09-04T02:08:11.9678191Z",
+  "sources": [
+    {
+      "id": "admindroid",
+      "name": "AdminDroid Community",
+      "commit": "e3efc54765f7a7b245320b3408b0a081fa3fc7d3",
+      "scripts": 183,
+      "sizeKb": 401,
+      "builtUtc": "2026-09-04T02:08:04.4721149Z"
+    },
+    {
+      "id": "o365itpros",
+      "name": "Office365ITPros",
+      "commit": "9aaae73d2026ad6a9c06a0082a09b7fab37933c0",
+      "scripts": 406,
+      "sizeKb": 406,
+      "builtUtc": "2026-09-04T02:08:09.7222130Z"
+    },
+    {
+      "id": "mike-crowley",
+      "name": "Mike Crowley - Public Scripts",
+      "commit": "b00d0a5a847f74327b81ded2f1487472cd07686d",
+      "scripts": 38,
+      "sizeKb": 50,
+      "builtUtc": "2026-09-04T02:08:11.0307758Z"
+    },
+    {
+      "id": "exchange4itpros",
+      "name": "Exchange4ITPros",
+      "commit": "252ad20a76bab40aa04d5985e2330b425303c443",
+      "scripts": 14,
+      "sizeKb": 28,
+      "builtUtc": "2026-09-04T02:08:11.9605896Z"
+    }
+  ]
+}

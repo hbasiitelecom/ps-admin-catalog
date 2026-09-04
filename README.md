@@ -24,6 +24,9 @@ Dans l'application : bouton **⚙** → collez l'URL → **Vérifier maintenant*
 | `services` | Catégories du rail de navigation, déduites des cmdlets de connexion |
 | `rules` | Verdicts de compatibilité PowerShell 7, avec leur explication |
 | `overrides` | Annotations par script : note d'usage, verdict forcé, renommage, masquage |
+| `indexBaseUrl` | Où l'application lit les index précalculés, plutôt que de cloner les dépôts |
+
+Les **index précalculés** vivent sous [`index/`](index/) : une fiche complète par script, construite une fois par l'action GitHub, que l'application lit au lieu d'analyser les dépôts sur le poste. Le script lui-même reste en ligne jusqu'au moment où on le lance. Format et raisons dans **[docs/INDEX.md](docs/INDEX.md)**.
 
 La référence complète du format est dans **[docs/SCHEMA.md](docs/SCHEMA.md)**. Le schéma exécutable est dans [`schema/catalog.schema.json`](schema/catalog.schema.json) — les éditeurs qui lisent le champ `$schema` offrent l'autocomplétion et la validation à la frappe.
 
@@ -31,9 +34,12 @@ La référence complète du format est dans **[docs/SCHEMA.md](docs/SCHEMA.md)**
 
 ```
 catalog.json              le fichier publié — c'est le produit
+index/                    index précalculés, un par source, plus manifest.json
 schema/                   JSON Schema (draft 2020-12)
 tools/validate_catalog.py validateur sans dépendance, utilisé par la CI
+tools/Build-SourceIndex.ps1 générateur des index, exécuté par la CI
 docs/SCHEMA.md            référence du format
+docs/INDEX.md             format des index et modèle « à la demande »
 docs/VERSIONING.md        ce qui déclenche un MAJEUR, un MINEUR, un CORRECTIF
 CHANGELOG.md              historique lisible des versions
 CONTRIBUTING.md           comment proposer un changement

@@ -70,6 +70,12 @@
       "minLength": 1,
       "maxLength": 20,
       "description": "Libelle du badge des scripts sans probleme detecte. Defaut : PS7. Ne pas y mettre 'OK' : la compatibilite n'est pas la preparation."
+    },
+    "indexBaseUrl": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://.*/$",
+      "description": "Base des index precalcules, terminee par une barre oblique. L'application y lit manifest.json puis <sourceId>.json. Absente : l'application retombe sur l'analyse locale."
     }
   },
   "$defs": {

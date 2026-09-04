@@ -1,0 +1,62 @@
+name: Construire les index
+
+# L'analyse des sources se fait ici, une fois, et non sur chaque poste.
+# L'application ne telecharge plus que le resultat, puis le script qu'elle lance.
+
+on:
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: "Sources a indexer (ids separes par des virgules, vide = toutes)"
+        required: false
+      includeDisabled:
+        description: "Indexer aussi les sources desactivees"
+        type: boolean
+        default: true
+  push:
+    branches: [main]
+    paths: ['catalog.json', 'tools/Build-SourceIndex.ps1']
+  schedule:
+    # Lundi 04h00 UTC : les depots amont bougent de quelques scripts par semaine.
+    - cron: '0 4 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-index
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Cloner, analyser, publier
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write     # seul ce travail ecrit, et uniquement dans index/
+    steps:
+      - name: Recuperer la revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Valider le catalogue avant d'indexer
+        run: python3 tools/validate_catalog.py catalog.json --check-format
+
+      - name: Construire les index
+        shell: pwsh
+        run: |
+          $args = @('-Catalog','catalog.json','-Out','index')
+          if ('${{ inputs.sources }}'.Trim())        { $args += @('-Only','${{ inputs.sources }}') }
+          if ('${{ inputs.includeDisabled }}' -ne 'false') { $args += '-IncludeDisabled' }
+          & ./tools/Build-SourceIndex.ps1 @args
+
+      - name: Publier si le contenu a change
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index
+          if git diff --cached --quiet; then
+            echo "Aucun changement : rien a publier."
+          else
+            git commit -m "chore(index): reconstruction automatique des index"
+            git push
+          fi
