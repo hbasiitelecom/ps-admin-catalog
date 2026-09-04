@@ -119,15 +119,19 @@ function Get-ScriptMetadata {
         $ast = [System.Management.Automation.Language.Parser]::ParseInput($raw, [ref]$tok, [ref]$perr)
     } catch { $ast = $null }
 
-    $commands = @()
+    # La premiere ligne ou chaque commande apparait : c'est elle qui rend un constat
+    # verifiable. Un constat sans numero de ligne oblige a relire tout le script.
+    $commands = @(); $cmdLine = @{}
     if ($ast) {
         try {
-            $commands = @($ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.CommandAst] }, $true) |
-                          ForEach-Object { $_.GetCommandName() } |
-                          Where-Object { $_ -and $_ -match '^[A-Za-z]+-[A-Za-z0-9]+$' } |
-                          ForEach-Object { $_.Substring(0,1).ToUpperInvariant() + $_.Substring(1) } |
-                          Sort-Object -Unique)
-        } catch { $commands = @() }
+            foreach ($c in $ast.FindAll({ param($n) $n -is [System.Management.Automation.Language.CommandAst] }, $true)) {
+                $cn = $c.GetCommandName()
+                if (-not $cn -or $cn -notmatch '^[A-Za-z]+-[A-Za-z0-9]+$') { continue }
+                $cn = $cn.Substring(0,1).ToUpperInvariant() + $cn.Substring(1)
+                if (-not $cmdLine.ContainsKey($cn)) { $cmdLine[$cn] = [int]$c.Extent.StartLineNumber }
+            }
+            $commands = @($cmdLine.Keys | Sort-Object)
+        } catch { $commands = @(); $cmdLine = @{} }
     }
 
     $header = ''
@@ -177,7 +181,7 @@ function Get-ScriptMetadata {
         elseif ($r.Count) { $impact = 'lecture';      $impactEvidence = @($r | Select-Object -First 4) }
     }
 
-    $parameters = @()
+    $parameters = @(); $sensLine = 0
     if ($ast -and $ast.ParamBlock) {
         foreach ($p in $ast.ParamBlock.Parameters) {
             $pname = $p.Name.VariablePath.UserPath
@@ -201,11 +205,13 @@ function Get-ScriptMetadata {
                 }
             }
             $isSwitch = $ptype -match '(?i)^\[?switch\]?$'
+            $sens = [bool](($pname -match $SensitiveParamPattern) -and -not $isSwitch)
+            if ($sens -and -not $sensLine) { $sensLine = [int]$p.Extent.StartLineNumber }
             $parameters += [pscustomobject]@{
                 Name = $pname; Type = $ptype; Mandatory = $mand
                 ValidateSet = @($vset)
                 Default = $(if ($p.DefaultValue) { $p.DefaultValue.Extent.Text } else { $null })
-                Sensitive = [bool](($pname -match $SensitiveParamPattern) -and -not $isSwitch)
+                Sensitive = $sens
             }
         }
     }
@@ -220,14 +226,24 @@ function Get-ScriptMetadata {
                      ForEach-Object { $_.Value }) | Sort-Object -Unique)
     }
 
+    # Des faits, chacun avec l'endroit ou le verifier.
+    $ln = { param($n) if ($cmdLine.ContainsKey($n)) { " (l. $($cmdLine[$n]))" } else { '' } }
     $findings = @()
-    if ($parameters | Where-Object { $_.Sensitive }) { $findings += 'Accepte un identifiant en clair en parametre' }
-    if ($commands -contains 'Invoke-Expression')     { $findings += 'Utilise Invoke-Expression' }
-    if ($commands | Where-Object { $_ -in @('Invoke-WebRequest','Invoke-RestMethod','Start-BitsTransfer') }) {
-        $findings += 'Telecharge depuis une URL externe'
+    if ($sensLine) {
+        $findings += "Accepte un identifiant en clair en parametre (l. $sensLine)"
+    } elseif ($parameters | Where-Object { $_.Sensitive }) {
+        $findings += 'Accepte un identifiant en clair en parametre'
     }
+    if ($commands -contains 'Invoke-Expression') { $findings += "Utilise Invoke-Expression$(& $ln 'Invoke-Expression')" }
+    $dl = @($commands | Where-Object { $_ -in @('Invoke-WebRequest','Invoke-RestMethod','Start-BitsTransfer') })
+    if ($dl.Count) {
+        $findings += "Telecharge depuis une URL externe : $(($dl | ForEach-Object { $_ + (& $ln $_) }) -join ', ')"
+    }
+    # Install-Module n'est pas retenu : 178 des 183 scripts d'AdminDroid appellent
+    # le controle de prerequis. Un constat vrai partout n'apprend rien - le meme
+    # piege que -Force, present sur 174 scripts sans y etre une confirmation.
     if ($impact -eq 'destructif' -and $impactEvidence.Count) {
-        $findings += "Supprime des objets du tenant : $($impactEvidence -join ', ')"
+        $findings += "Supprime des objets du tenant : $(($impactEvidence | ForEach-Object { $_ + (& $ln $_) }) -join ', ')"
     }
 
     $rel = $File.FullName.Substring($Root.Length).TrimStart('\', '/') -replace '\\', '/'

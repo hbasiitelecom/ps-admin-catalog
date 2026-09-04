@@ -6,6 +6,21 @@ Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles prop
 
 ## [Non publié]
 
+## [1.4.0] - 2026-09-04
+
+### Ajouté
+
+- **Les constats portent leur numéro de ligne.** *« Supprime des objets du tenant : Remove-MgUser (l. 122) »* au lieu de *« supprime des objets du tenant »*. Un constat sans endroit où le vérifier oblige à relire tout le script ; avec la ligne, il se contrôle en dix secondes. La ligne est celle du premier appel, relevée dans l'arbre syntaxique.
+- Le téléchargement depuis une URL externe nomme désormais la cmdlet et sa ligne, comme les autres constats.
+
+### Retiré
+
+- Le constat **« installe un module depuis PSGallery »**. Il est vrai de **178 des 183 scripts d'AdminDroid** : c'est le contrôle de prérequis que la source place en tête de chaque script. Un constat vrai partout n'apprend rien, et il noyait les deux qui comptent. Même piège que `-Force`, présent sur 174 scripts sans jamais y être une confirmation utilisateur.
+
+### Notes
+
+Sur AdminDroid, 114 scripts sur 183 portent au moins un constat : 104 acceptent un identifiant en clair, 12 suppriment des objets du tenant, 1 télécharge depuis une URL externe.
+
 ## [1.3.2] - 2026-09-04
 
 ### Modifié
