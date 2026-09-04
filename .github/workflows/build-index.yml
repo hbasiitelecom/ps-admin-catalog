@@ -15,7 +15,7 @@ on:
         default: true
   push:
     branches: [main]
-    paths: ['catalog.json', 'tools/Build-SourceIndex.ps1']
+    paths: ['catalog.json', 'tools/Build-SourceIndex.ps1', '.github/workflows/build-index.yml']
   schedule:
     # Lundi 04h00 UTC : les depots amont bougent de quelques scripts par semaine.
     - cron: '0 4 * * 1'
@@ -43,11 +43,16 @@ jobs:
 
       - name: Construire les index
         shell: pwsh
+        env:
+          ONLY: ${{ inputs.sources }}
+          INCLUDE_DISABLED: ${{ inputs.includeDisabled }}
         run: |
-          $args = @('-Catalog','catalog.json','-Out','index')
-          if ('${{ inputs.sources }}'.Trim())        { $args += @('-Only','${{ inputs.sources }}') }
-          if ('${{ inputs.includeDisabled }}' -ne 'false') { $args += '-IncludeDisabled' }
-          & ./tools/Build-SourceIndex.ps1 @args
+          # Table de hachage, pas un tableau : le splat d'un tableau lie les
+          # arguments par position, et '-Catalog' devient alors une valeur.
+          $p = @{ Catalog = 'catalog.json'; Out = 'index' }
+          if ($env:ONLY -and $env:ONLY.Trim())  { $p.Only = $env:ONLY.Trim() }
+          if ($env:INCLUDE_DISABLED -ne 'false') { $p.IncludeDisabled = $true }
+          & ./tools/Build-SourceIndex.ps1 @p
 
       - name: Publier si le contenu a change
         run: |
