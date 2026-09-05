@@ -156,7 +156,7 @@ def validate(cat: dict) -> set:
         for fld in ("include", "exclude"):
             if s.get(fld) is not None and not isinstance(s[fld], list):
                 fail(f"{w} : « {fld} » doit etre une liste de motifs.")
-        known_src = {"id","name","owner","repo","branch","metadataStyle","enabled",
+        known_src = {"id","name","owner","repo","branch","enabled",
                      "layout","include","exclude","trust","license","note"}
         for extra in sorted(set(s) - known_src):
             fail(f"{w} : champ inconnu « {extra} ».")

@@ -23,10 +23,10 @@ L'application le télécharge, le met en cache localement, et signale discrètem
 
 ```json
 {
-  "id": "admindroid",
-  "name": "AdminDroid Community",
-  "owner": "admindroid-community",
-  "repo": "powershell-scripts",
+  "id": "o365itpros",
+  "name": "Office365ITPros",
+  "owner": "12Knocksinna",
+  "repo": "Office365itpros",
   "branch": "master",
   "enabled": true
 }
@@ -62,10 +62,10 @@ Attention aux échappements JSON : `\b` s'écrit `\\b`, `\s` s'écrit `\\s`, `\.
 
 ```json
 {
-  "sourceId": "admindroid",
-  "path": "Audit File Deletion/AuditFileDeletion.ps1",
-  "name": "Audit des suppressions de fichiers",
-  "notes": "Validé en production. Penser à filtrer sur -SharePointOnline.",
+  "sourceId": "o365itpros",
+  "path": "Add-ContactsToMailboxes.PS1",
+  "name": "Ajouter des contacts aux boîtes",
+  "notes": "Validé en production. Penser à limiter le périmètre avec -Group.",
   "status": "ok",
   "label": "Validé",
   "hidden": false
