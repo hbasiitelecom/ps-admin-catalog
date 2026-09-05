@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 300" width="1280" height="300" role="img" aria-label="ps-admin-catalog - la couche de connaissance du lanceur PowerShell 7 pour Microsoft 365 : 10 depots publics, index precalcules, le lanceur sur le poste">
+  <defs>
+    <radialGradient id="glow" cx="86%" cy="6%" r="66%">
+      <stop offset="0%" stop-color="#0969DA" stop-opacity=".20"/>
+      <stop offset="100%" stop-color="#0969DA" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0969DA" stop-opacity=".9"/>
+      <stop offset="100%" stop-color="#0969DA" stop-opacity="0"/>
+    </linearGradient>
+    <style>
+      .mono { font-family: ui-monospace, SFMono-Regular, "Cascadia Code", Consolas, "Liberation Mono", monospace; }
+      .ui   { font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <rect x="1" y="1" width="1278" height="298" rx="18" fill="#FFFFFF" stroke="#D0D7DE"/>
+  <rect x="1" y="1" width="1278" height="298" rx="18" fill="url(#glow)"/>
+
+  <rect x="64" y="56" width="64" height="3" rx="1.5" fill="url(#rule)"/>
+
+  <text class="mono" x="64" y="130" font-size="52" font-weight="700" fill="#1F2328">ps-admin-catalog</text>
+  <text class="ui"   x="66" y="170" font-size="19" fill="#59636E">La couche de connaissance du lanceur PowerShell 7 pour Microsoft 365.</text>
+  <text class="ui"   x="66" y="197" font-size="19" fill="#59636E">Aucun script ici : ce qu'il faut savoir pour s'en servir.</text>
+
+  <g class="ui" font-size="15">
+    <rect x="64"  y="226" width="176" height="34" rx="17" fill="#DDF0FF" stroke="#D0D7DE"/>
+    <text x="152" y="248" fill="#0969DA" text-anchor="middle" font-weight="600">10 dépôts publics</text>
+
+    <rect x="252" y="226" width="152" height="34" rx="17" fill="#F6F8FA" stroke="#D0D7DE"/>
+    <text x="328" y="248" fill="#1F2328" text-anchor="middle">PowerShell 7</text>
+
+    <rect x="416" y="226" width="152" height="34" rx="17" fill="#F6F8FA" stroke="#D0D7DE"/>
+    <text x="492" y="248" fill="#1F2328" text-anchor="middle">licence MIT</text>
+  </g>
+
+  <g class="ui">
+    <rect x="900" y="44" width="316" height="56" rx="12" fill="#F6F8FA" stroke="#D0D7DE"/>
+    <text x="1058" y="70" font-size="12" fill="#59636E" text-anchor="middle" letter-spacing="1.4">SOURCES</text>
+    <text x="1058" y="90" font-size="15" fill="#1F2328" text-anchor="middle">le corpus, tel qu'il est publié</text>
+
+    <path d="M1058 100 v22" stroke="#D0D7DE" stroke-width="2"/>
+    <path d="M1053 120 l5 8 5 -8 z" fill="#0969DA"/>
+
+    <rect x="900" y="128" width="316" height="56" rx="12" fill="#DDF0FF" stroke="#0969DA" stroke-opacity=".45"/>
+    <text x="1058" y="154" font-size="12" fill="#59636E" text-anchor="middle" letter-spacing="1.4">CE DÉPÔT</text>
+    <text x="1058" y="174" font-size="15" fill="#0969DA" text-anchor="middle" font-weight="600">index précalculés</text>
+
+    <path d="M1058 184 v22" stroke="#D0D7DE" stroke-width="2"/>
+    <path d="M1053 204 l5 8 5 -8 z" fill="#0969DA"/>
+
+    <rect x="900" y="212" width="316" height="56" rx="12" fill="#F6F8FA" stroke="#D0D7DE"/>
+    <text x="1058" y="238" font-size="12" fill="#59636E" text-anchor="middle" letter-spacing="1.4">POSTE</text>
+    <text x="1058" y="258" font-size="15" fill="#1F2328" text-anchor="middle">le lanceur, hors ligne</text>
+  </g>
+</svg>

@@ -190,14 +190,6 @@
           "pattern": "^[A-Za-z0-9._/-]{1,100}$",
           "default": "main"
         },
-        "metadataStyle": {
-          "type": "string",
-          "enum": [
-            "admindroid",
-            "generic"
-          ],
-          "default": "generic"
-        },
         "enabled": {
           "type": "boolean",
           "default": true

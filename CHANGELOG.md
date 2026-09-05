@@ -6,6 +6,16 @@ Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles prop
 
 ## [Non publié]
 
+### Modifié
+
+- **La page d'accueil du dépôt est refaite.** Bannière adaptée au thème clair et sombre, badges d'état, parcours de lecture en trois temps - le problème, le fonctionnement, le branchement - et sections de référence repliées. Le contenu de fond ne change pas.
+- **La licence de chaque source est publiée**, dans un tableau du README et dans [NOTICE.md](NOTICE.md). Le relevé au 5 septembre 2026 corrige une omission : trois dépôts référencés ne déclarent aucune licence, là où la documentation n'en signalait qu'un. `Mike-Crowley/Public-Scripts` est sous GPL-3.0, ce qui n'était mentionné nulle part.
+
+### Retiré
+
+- **Le champ de source `metadataStyle`.** Aucune source ne le renseignait, aucun outil ne le lisait, il n'était documenté nulle part, et son énumération portait le nom d'une source particulière. Retiré du schéma et du validateur. `schemaVersion` reste à 1 : aucun catalogue existant n'utilisait ce champ.
+- L'exemple de `docs/SCHEMA.md` désigne désormais `o365itpros`, la source la plus fournie, plutôt qu'une source citée par habitude.
+
 ## [2.1.1] - 2026-09-05
 
 ### Corrigé
