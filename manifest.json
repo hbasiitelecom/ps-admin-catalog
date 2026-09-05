@@ -1,0 +1,87 @@
+{
+  "indexVersion": 2,
+  "catalogVersion": "2.1.1",
+  "builtUtc": "2026-09-05T02:17:15.6954816Z",
+  "sources": [
+    {
+      "id": "admindroid",
+      "name": "AdminDroid Community",
+      "commit": "aa8de9e7d8ca5506313e0b5768e3d6adf10db145",
+      "scripts": 183,
+      "sizeKb": 412,
+      "builtUtc": "2026-09-05T02:17:04.5994244Z"
+    },
+    {
+      "id": "o365itpros",
+      "name": "Office365ITPros",
+      "commit": "9e33a0d669339bee8823f15a409be8df2ad96870",
+      "scripts": 406,
+      "sizeKb": 431,
+      "builtUtc": "2026-09-05T02:17:08.9091514Z"
+    },
+    {
+      "id": "mike-crowley",
+      "name": "Mike Crowley - Public Scripts",
+      "commit": "b00d0a5a847f74327b81ded2f1487472cd07686d",
+      "scripts": 38,
+      "sizeKb": 53,
+      "builtUtc": "2026-09-05T02:17:10.0384040Z"
+    },
+    {
+      "id": "m365corner",
+      "name": "M365Corner",
+      "commit": "225e6228087e2b4bfa8e7893aa420dfd189fa3b3",
+      "scripts": 44,
+      "sizeKb": 48,
+      "builtUtc": "2026-09-05T02:17:10.8427682Z"
+    },
+    {
+      "id": "exchange4itpros",
+      "name": "Exchange4ITPros",
+      "commit": "252ad20a76bab40aa04d5985e2330b425303c443",
+      "scripts": 14,
+      "sizeKb": 29,
+      "builtUtc": "2026-09-05T02:17:11.4796899Z"
+    },
+    {
+      "id": "monkey365",
+      "name": "Monkey365",
+      "commit": "7cfa39019496eb18ab920d6876e69e0b111613bf",
+      "scripts": 2,
+      "sizeKb": 2,
+      "builtUtc": "2026-09-05T02:17:12.9744831Z"
+    },
+    {
+      "id": "msendpointmgr",
+      "name": "MSEndpointMgr - Intune",
+      "commit": "dae99c9e8d33427cbe42326598f928943d8d33d3",
+      "scripts": 62,
+      "sizeKb": 88,
+      "builtUtc": "2026-09-05T02:17:13.8803331Z"
+    },
+    {
+      "id": "devolutions",
+      "name": "Devolutions ScriptLibrary",
+      "commit": "9fda8b12288515e4f9eaf45a7602de53e3dadf85",
+      "scripts": 19,
+      "sizeKb": 28,
+      "builtUtc": "2026-09-05T02:17:14.3760746Z"
+    },
+    {
+      "id": "365inspect",
+      "name": "365Inspect",
+      "commit": "1a97f595b020cdc3b36b86ed49fec31de0ca6c04",
+      "scripts": 2,
+      "sizeKb": 5,
+      "builtUtc": "2026-09-05T02:17:14.9567139Z"
+    },
+    {
+      "id": "mggraph-intune",
+      "name": "Microsoft Graph Intune Samples",
+      "commit": "7adb49130e4b447b3b695b3afc521292c0e357d0",
+      "scripts": 63,
+      "sizeKb": 72,
+      "builtUtc": "2026-09-05T02:17:15.6863664Z"
+    }
+  ]
+}
