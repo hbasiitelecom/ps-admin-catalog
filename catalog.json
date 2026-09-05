@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/catalog.schema.json",
   "schemaVersion": 1,
-  "catalogVersion": "2.1.0",
+  "catalogVersion": "2.1.1",
   "name": "Catalogue PowerShell Microsoft 365",
   "description": "Sources, regles de compatibilite PowerShell 7, index publies et annotations pour PS Admin Launcher. Seuls des scripts lancables sont references.",
   "okLabel": "PS7",
@@ -198,13 +198,10 @@
       "keywords": [
         "compte",
         "comptes",
-        "utilisateur",
-        "utilisateurs",
         "inactif",
         "inactifs",
         "offboarding",
         "depart",
-        "suppression",
         "desactive"
       ],
       "impact": "destructif",
@@ -218,15 +215,18 @@
       "id": "m365-compromised-account",
       "label": "Réagir à un compte compromis",
       "keywords": [
+        "compte",
+        "comptes",
         "compromis",
+        "compromise",
         "piratage",
-        "piraté",
+        "pirate",
         "incident",
         "session",
         "sessions",
-        "revoquer",
         "jeton",
-        "exfiltration"
+        "exfiltration",
+        "securite"
       ],
       "impact": "destructif",
       "signature": [
@@ -258,9 +258,7 @@
         "authentification",
         "forte",
         "multifacteur",
-        "telephone",
-        "reinitialiser",
-        "reset"
+        "telephone"
       ],
       "impact": "destructif",
       "signature": [
@@ -277,9 +275,7 @@
         "dl",
         "groupe",
         "unified",
-        "conversion",
-        "convertir",
-        "migrer"
+        "conversion"
       ],
       "impact": "modification",
       "signature": [
@@ -295,8 +291,6 @@
         "membres",
         "groupe",
         "groupes",
-        "copier",
-        "synchroniser",
         "dynamique"
       ],
       "impact": "modification",
@@ -313,8 +307,6 @@
         "licence",
         "licences",
         "abonnement",
-        "attribuer",
-        "retirer",
         "sku",
         "affectation"
       ],

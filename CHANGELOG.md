@@ -6,6 +6,13 @@ Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles prop
 
 ## [Non publié]
 
+## [2.1.1] - 2026-09-05
+
+### Corrigé
+
+- **Les mots-clés des tâches contenaient des verbes génériques** - `supprimer`, `attribuer`, `retirer`, `réinitialiser` - et des noms qui n'appartiennent à aucun domaine en particulier : `utilisateur`, `compte`. *« licence utilisateur »* désignait alors la tâche « Supprimer des comptes », et *« supprimer »* seul aurait désigné n'importe quelle tâche destructive. Les mots-clés sont maintenant des **termes du domaine** : ce qui distingue une tâche des autres, pas ce qui la décrit.
+- La règle de reconnaissance s'assouplit en conséquence : une seule correspondance **exacte** suffit désormais, car *« message d'absence »* n'a qu'un mot distinctif. Une correspondance exacte pèse double, de sorte qu'entre deux tâches partageant un mot, celle dont le terme propre est touché l'emporte.
+
 ## [2.1.0] - 2026-09-05
 
 ### Ajouté
