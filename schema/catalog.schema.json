@@ -76,6 +76,78 @@
       "format": "uri",
       "pattern": "^https://.*/$",
       "description": "Base des index precalcules, terminee par une barre oblique. L'application y lit manifest.json puis <sourceId>.json. Absente : l'application retombe sur l'analyse locale."
+    },
+    "tasks": {
+      "type": "array",
+      "description": "Taches : une intention d'administrateur, ses mots-cles, et la signature de cmdlets qui rapproche les candidats. Facultatif et retrocompatible.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "keywords",
+          "impact",
+          "signature"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "keywords": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "impact": {
+            "enum": [
+              "lecture",
+              "modification",
+              "destructif"
+            ]
+          },
+          "signature": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z]+-[A-Za-z0-9]+$"
+            }
+          },
+          "best": {
+            "type": "string",
+            "description": "Reference sourceId:chemin du script retenu. Ecrit par un humain, il passe devant le classement automatique."
+          },
+          "why": {
+            "type": "string",
+            "description": "La raison du choix, en une phrase. Un jugement assume, pas un score."
+          },
+          "alternatives": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "ref"
+              ],
+              "properties": {
+                "ref": {
+                  "type": "string"
+                },
+                "when": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "$defs": {

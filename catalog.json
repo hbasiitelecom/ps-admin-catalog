@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/catalog.schema.json",
   "schemaVersion": 1,
-  "catalogVersion": "2.0.0",
+  "catalogVersion": "2.1.0",
   "name": "Catalogue PowerShell Microsoft 365",
   "description": "Sources, regles de compatibilite PowerShell 7, index publies et annotations pour PS Admin Launcher. Seuls des scripts lancables sont references.",
   "okLabel": "PS7",
@@ -190,5 +190,177 @@
       "reason": "Ce script utilise le module Microsoft.Online.SharePoint.PowerShell, qui n'est pas nativement compatible PowerShell 7. Importez-le avec : Import-Module Microsoft.Online.SharePoint.PowerShell -UseWindowsPowerShell"
     }
   ],
-  "overrides": []
+  "overrides": [],
+  "tasks": [
+    {
+      "id": "m365-remove-accounts",
+      "label": "Supprimer des comptes Microsoft 365",
+      "keywords": [
+        "compte",
+        "comptes",
+        "utilisateur",
+        "utilisateurs",
+        "inactif",
+        "inactifs",
+        "offboarding",
+        "depart",
+        "suppression",
+        "desactive"
+      ],
+      "impact": "destructif",
+      "signature": [
+        "Remove-MgUser",
+        "Remove-MgDirectoryDeletedItem",
+        "Remove-MsolUser"
+      ]
+    },
+    {
+      "id": "m365-compromised-account",
+      "label": "Réagir à un compte compromis",
+      "keywords": [
+        "compromis",
+        "piratage",
+        "piraté",
+        "incident",
+        "session",
+        "sessions",
+        "revoquer",
+        "jeton",
+        "exfiltration"
+      ],
+      "impact": "destructif",
+      "signature": [
+        "Revoke-MgUserSignInSession",
+        "Revoke-MgUserSign"
+      ]
+    },
+    {
+      "id": "exo-outlook-signature",
+      "label": "Déployer une signature Outlook",
+      "keywords": [
+        "signature",
+        "signatures",
+        "outlook",
+        "owa",
+        "pied",
+        "papier"
+      ],
+      "impact": "modification",
+      "signature": [
+        "Set-MailboxMessageConfiguration"
+      ]
+    },
+    {
+      "id": "entra-mfa-reset",
+      "label": "Réinitialiser l'authentification forte d'un utilisateur",
+      "keywords": [
+        "mfa",
+        "authentification",
+        "forte",
+        "multifacteur",
+        "telephone",
+        "reinitialiser",
+        "reset"
+      ],
+      "impact": "destructif",
+      "signature": [
+        "Remove-MgUserAuthenticationPhoneMethod",
+        "Remove-MgUserAuthenticationMethod"
+      ]
+    },
+    {
+      "id": "exo-dl-to-group",
+      "label": "Convertir une liste de distribution en groupe Microsoft 365",
+      "keywords": [
+        "distribution",
+        "liste",
+        "dl",
+        "groupe",
+        "unified",
+        "conversion",
+        "convertir",
+        "migrer"
+      ],
+      "impact": "modification",
+      "signature": [
+        "New-UnifiedGroup"
+      ]
+    },
+    {
+      "id": "entra-group-membership",
+      "label": "Copier ou synchroniser l'appartenance d'un groupe",
+      "keywords": [
+        "appartenance",
+        "membre",
+        "membres",
+        "groupe",
+        "groupes",
+        "copier",
+        "synchroniser",
+        "dynamique"
+      ],
+      "impact": "modification",
+      "signature": [
+        "New-MgGroupMember",
+        "Add-DistributionGroupMember",
+        "Add-UnifiedGroupLinks"
+      ]
+    },
+    {
+      "id": "m365-license-assign",
+      "label": "Attribuer ou retirer des licences",
+      "keywords": [
+        "licence",
+        "licences",
+        "abonnement",
+        "attribuer",
+        "retirer",
+        "sku",
+        "affectation"
+      ],
+      "impact": "modification",
+      "signature": [
+        "Set-MgUserLicense",
+        "Set-MsolUserLicense"
+      ]
+    },
+    {
+      "id": "spo-version-cleanup",
+      "label": "Nettoyer l'historique de versions SharePoint",
+      "keywords": [
+        "version",
+        "versions",
+        "versioning",
+        "historique",
+        "purge",
+        "nettoyage",
+        "stockage",
+        "quota",
+        "sharepoint"
+      ],
+      "impact": "destructif",
+      "signature": [
+        "Remove-PnPFileVersion",
+        "Remove-MgDriveItemVersion",
+        "Set-PnPListVersionHistory"
+      ]
+    },
+    {
+      "id": "exo-auto-reply",
+      "label": "Configurer un message d'absence",
+      "keywords": [
+        "absence",
+        "absent",
+        "reponse",
+        "automatique",
+        "oof",
+        "vacances",
+        "conge"
+      ],
+      "impact": "modification",
+      "signature": [
+        "Set-MailboxAutoReplyConfiguration"
+      ]
+    }
+  ]
 }

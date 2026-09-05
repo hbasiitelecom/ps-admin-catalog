@@ -6,6 +6,24 @@ Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles prop
 
 ## [Non publié]
 
+## [2.1.0] - 2026-09-05
+
+### Ajouté
+
+- **Tableau `tasks`** : une tâche est une intention d'administrateur, ses mots-clés en français, et la **signature de cmdlets** qui rapproche les candidats. C'est le pivot : `Remove-PnPFileVersion` ne veut dire qu'une chose, quelle que soit la façon dont l'auteur a nommé son fichier. Le nom, lui, ment - *File Version History Report* et *Automate Version History Cleanup* se ressemblent et ne font pas la même chose. Champ facultatif, `schemaVersion` inchangé.
+- **Neuf tâches**, toutes tirées du corpus et non inventées : elles ont été trouvées en groupant les scripts par cmdlet d'action partagée entre au moins deux sources. Supprimer des comptes, réagir à un compte compromis, déployer une signature Outlook, réinitialiser la MFA, convertir une liste de distribution, synchroniser l'appartenance d'un groupe, gérer les licences, nettoyer les versions SharePoint, configurer un message d'absence.
+- **Le générateur date chaque fichier.** Le clone passe de `--depth 1` à `--filter=blob:none` : l'historique complet des commits est nécessaire pour dater les fichiers, les blobs anciens ne le sont pas et restent sur le serveur. Un seul parcours de l'historique date tout le dépôt, là où un `git log` par fichier coûterait des dizaines de millisecondes chacun. C'est le critère de fraîcheur, et c'est bien la date du **fichier** - un projet actif peut abriter un script inchangé depuis quatre ans qui appelle une API dépréciée.
+- Chaque fiche porte aussi `HasHeader`, pour le critère de lisibilité.
+- Le validateur refuse une tâche sans signature, une cmdlet mal formée, un impact hors des trois valeurs, un identifiant en double, un `best` désignant une source inconnue, une alternative sans référence, un champ inconnu. Neuf cas éprouvés.
+
+### Modifié
+
+- **`indexVersion` passe à 2.** Les index portent deux champs de plus. Une application qui n'attend que la version 1 doit être mise à jour ; l'application 1.11.0 accepte les deux, un index plus ancien perdant simplement les critères qui en dépendent.
+
+### Notes
+
+Aucune tâche ne porte de `best`. Le champ existe et passe devant le classement automatique, mais il désigne un jugement humain - *« validé en production chez un client de 400 boîtes »* - et ce jugement n'est pas le mien à écrire. Tant qu'il est vide, l'application affiche le meilleur candidat calculé, avec la phrase qui dit pourquoi, et sans jamais faire passer ce calcul pour une validation.
+
 ## [2.0.0] - 2026-09-05
 
 Version MAJEURE : cinq sources sont retirées. Les favoris et l'historique qui s'y référaient deviennent orphelins - ils sont ignorés, pas supprimés.

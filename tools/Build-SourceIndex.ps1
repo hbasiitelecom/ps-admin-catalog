@@ -27,7 +27,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$IndexVersion = 1
+$IndexVersion = 2
 
 function Say([string]$m, [string]$c = 'Gray') { Write-Host "  $m" -ForegroundColor $c }
 function Step([string]$m) { Write-Host ''; Write-Host "== $m" -ForegroundColor Cyan }
@@ -261,7 +261,9 @@ function Get-ScriptMetadata {
         Commands = @($commands); Modules = @($modules); Scopes = @($scopes); Findings = @($findings)
         Notes = ''; Parameters = @($parameters); Hidden = $false
         Bytes = [int]$File.Length
-        Sha = ''      # renseigne ensuite depuis git ls-tree
+        Sha = ''         # renseigne ensuite depuis git ls-tree
+        LastCommit = ''  # renseigne ensuite depuis l'historique
+        HasHeader = [bool]$header
     }
 }
 
@@ -289,13 +291,33 @@ foreach ($src in $sources) {
     $work = Join-Path ([IO.Path]::GetTempPath()) ("idx-" + [guid]::NewGuid().ToString('N'))
     $branch = if ($src.branch) { $src.branch } else { 'main' }
     try {
-        Say "clonage superficiel de la branche $branch…"
+        # Clone partiel plutot que superficiel : l'historique complet des commits est
+        # necessaire pour dater chaque fichier, mais les blobs des revisions anciennes
+        # ne le sont pas. --filter=blob:none les laisse sur le serveur.
+        Say "clonage partiel de la branche $branch…"
         $sw = [Diagnostics.Stopwatch]::StartNew()
-        git clone --depth 1 --quiet --branch $branch "https://github.com/$($src.owner)/$($src.repo).git" $work 2>&1 | Out-Null
+        git clone --filter=blob:none --quiet --single-branch --branch $branch "https://github.com/$($src.owner)/$($src.repo).git" $work 2>&1 | Out-Null
         if (-not (Test-Path -LiteralPath $work)) { throw "clonage impossible" }
 
         $commit = (git -C $work rev-parse HEAD).Trim()
         Say "commit $($commit.Substring(0,10))"
+
+        # Date du dernier commit touchant chaque fichier. Un « git log » par fichier
+        # coute des dizaines de millisecondes ; un seul parcours de l'historique en
+        # coute autant pour tout le depot. C'est la date du fichier qui compte, pas
+        # celle du depot : un projet actif peut abriter un script inchange depuis
+        # quatre ans qui appelle une API depreciee.
+        $dates = @{}
+        try {
+            $cur = $null
+            foreach ($line in (git -C $work log --format='%cI' --name-only --no-renames --diff-filter=AM 2>$null)) {
+                if ($line -match '^\d{4}-\d{2}-\d{2}T') { $cur = $line.Trim(); continue }
+                if (-not $line -or -not $cur) { continue }
+                $k = $line.Trim()
+                if (-not $dates.ContainsKey($k)) { $dates[$k] = $cur }
+            }
+        } catch { }
+        Say "$($dates.Count) fichier(s) dates dans l'historique"
 
         # Empreintes de blob : garantissent que le poste executera exactement
         # le fichier qui a ete analyse ici.
@@ -319,6 +341,7 @@ foreach ($src in $sources) {
             try {
                 $o = Get-ScriptMetadata -File $f -FolderName $folderName -Root $work -MultiInFolder $multi -Source $src -Cat $cat -ImpactVerbs $verbs
                 $o.Sha = [string]$blob[$o.RelPath]
+                $o.LastCommit = [string]$dates[$o.RelPath]
                 $scripts.Add($o)
             } catch { Say "  ignore : $($f.Name) ($_)" DarkGray }
         }

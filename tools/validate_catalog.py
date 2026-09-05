@@ -107,7 +107,7 @@ def validate(cat: dict) -> set:
     need(cat, "name", where)
 
     known = {"$schema", "schemaVersion", "catalogVersion", "name", "description", "okLabel",
-             "indexBaseUrl", "sources", "services", "rules", "overrides"}
+             "indexBaseUrl", "sources", "services", "rules", "overrides", "tasks"}
     for extra in sorted(set(cat) - known):
         fail(f"racine : champ inconnu « {extra} ». L'application l'ignorerait silencieusement.")
 
@@ -161,6 +161,52 @@ def validate(cat: dict) -> set:
         for extra in sorted(set(s) - known_src):
             fail(f"{w} : champ inconnu « {extra} ».")
     check_unique(sources, "id", "sources")
+
+    # ------------------------------------------------------------------ taches
+    # Une tache est une intention d'administrateur. Elle vaut par sa signature de
+    # cmdlets : c'est elle qui rapproche les candidats, et non le nom du script.
+    ids_taches = set()
+    for i, t in enumerate(cat.get("tasks") or []):
+        w = f"tasks[{i}]"
+        if not isinstance(t, dict):
+            fail(f"{w} : doit etre un objet.")
+            continue
+        tid = need(t, "id", w)
+        if tid:
+            if tid in ids_taches:
+                fail(f"{w} : identifiant « {tid} » en double.")
+            ids_taches.add(tid)
+            if not re.fullmatch(r"[a-z0-9][a-z0-9-]*", str(tid)):
+                fail(f"{w} : identifiant « {tid} » hors format (minuscules, chiffres, tirets).")
+        need(t, "label", w)
+        sig = t.get("signature")
+        if not isinstance(sig, list) or not sig:
+            fail(f"{w} : « signature » doit etre une liste non vide de cmdlets. "
+                 "Sans elle, aucun candidat ne peut etre rapproche.")
+        else:
+            for c in sig:
+                if not isinstance(c, str) or not re.fullmatch(r"[A-Za-z]+-[A-Za-z0-9]+", c):
+                    fail(f"{w} : « {c} » n'est pas un nom de cmdlet Verbe-Nom.")
+        kw = t.get("keywords")
+        if not isinstance(kw, list) or not kw:
+            fail(f"{w} : « keywords » doit etre une liste non vide ; sans elle la tache "
+                 "est introuvable a la recherche.")
+        if t.get("impact") not in ("lecture", "modification", "destructif"):
+            fail(f"{w} : « impact » doit valoir lecture, modification ou destructif. "
+                 "C'est la barriere qui empeche de proposer un script de rapport la "
+                 "ou l'on veut supprimer.")
+        ref = t.get("best")
+        if ref is not None:
+            if not isinstance(ref, str) or ":" not in ref:
+                fail(f"{w} : « best » doit etre une reference « sourceId:chemin ».")
+            elif ref.split(":", 1)[0] not in source_ids:
+                fail(f"{w} : « best » designe la source « {ref.split(':', 1)[0]} », inconnue.")
+        for j, a in enumerate(t.get("alternatives") or []):
+            if not isinstance(a, dict) or not a.get("ref"):
+                fail(f"{w}.alternatives[{j}] : « ref » est obligatoire.")
+        known_task = {"id", "label", "keywords", "impact", "signature", "best", "why", "alternatives"}
+        for extra in sorted(set(t) - known_task):
+            fail(f"{w} : champ inconnu « {extra} ».")
 
     # --------------------------------------------------------------- services
     services = cat.get("services") or []
