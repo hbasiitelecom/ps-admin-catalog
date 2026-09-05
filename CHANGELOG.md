@@ -6,6 +6,35 @@ Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles prop
 
 ## [Non publié]
 
+## [2.0.0] - 2026-09-05
+
+Version MAJEURE : cinq sources sont retirées. Les favoris et l'historique qui s'y référaient deviennent orphelins - ils sont ignorés, pas supprimés.
+
+### Retiré
+
+Ces dépôts sont des **modules**, pas des collections de scripts. Leurs `.ps1` sont des fonctions internes, appelées par le module, qui ne se lancent pas seules. Les déclarer comme sources apportait 2 292 fiches dont aucune n'était lançable, et noyait les 829 qui le sont.
+
+| Source | Fiches | Ce qu'elles étaient |
+|---|---:|---|
+| Microsoft365DSC | 1 197 | 1 183 exemples de configuration DSC, plus le générateur et les utilitaires du dépôt |
+| Maester | 721 | `powershell/public` et `internal` : les fonctions du module, qui s'utilise par `Invoke-Maester` |
+| Monkey365 | 388 sur 391 | `core/` et `collectors/` : le cœur du module et ses collecteurs |
+| 365Inspect | 108 sur 112 | `Inspectors/` : une fonction par contrôle, appelée par le script principal |
+| ScubaGear | 27 | outillage de compilation, tests Pester et fichiers de dépendances ; ScubaGear s'utilise par `Invoke-SCuBA` |
+| EntraExporter | 15 | `src/` : les fonctions du module |
+| DCToolbox | 0 | aucun fichier éligible depuis le premier index |
+
+### Modifié
+
+- **Monkey365** et **365Inspect** restent, réduits à leurs points d'entrée réels : `Invoke-Monkey365.ps1` et `monkey365.ps1` pour l'un, `365Inspect.ps1` et `Create-365InspectApp.ps1` pour l'autre. Ce sont de vrais scripts, qui se lancent et prennent des paramètres.
+- La description du catalogue le dit maintenant explicitement : **seuls des scripts lançables sont référencés**.
+
+### Notes
+
+Le corpus passe de 3 292 fiches à environ 830. Ce n'est pas une perte : c'est le nombre réel de scripts qu'un administrateur peut lancer. Les 2 462 autres polluaient la recherche, les comptes du rail et la palette de commandes.
+
+La note de la 1.2.0 signalait déjà que huit de ces dépôts étaient des modules. C'était une hypothèse au moment de les déclarer ; les index l'ont vérifiée.
+
 ## [1.4.0] - 2026-09-04
 
 ### Ajouté

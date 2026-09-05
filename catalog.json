@@ -1,9 +1,9 @@
 {
   "$schema": "./schema/catalog.schema.json",
   "schemaVersion": 1,
-  "catalogVersion": "1.4.0",
+  "catalogVersion": "2.0.0",
   "name": "Catalogue PowerShell Microsoft 365",
-  "description": "Sources, regles de compatibilite PowerShell 7, index publies et annotations pour PS Admin Launcher.",
+  "description": "Sources, regles de compatibilite PowerShell 7, index publies et annotations pour PS Admin Launcher. Seuls des scripts lancables sont references.",
   "okLabel": "PS7",
   "indexBaseUrl": "https://raw.githubusercontent.com/hbasiitelecom/ps-admin-catalog/index/",
   "sources": [
@@ -68,54 +68,6 @@
       "enabled": false
     },
     {
-      "id": "maester",
-      "name": "Maester",
-      "owner": "maester365",
-      "repo": "maester",
-      "branch": "main",
-      "layout": "tree",
-      "trust": "official",
-      "license": "MIT",
-      "note": "DEPOT-MODULE. Framework de tests de securite base sur Pester : ses 1535 fichiers .ps1 sont des tests executes par le framework, pas des scripts lancables. A ne pas activer sans filtre include adapte.",
-      "enabled": false
-    },
-    {
-      "id": "scubagear",
-      "name": "CISA ScubaGear",
-      "owner": "cisagov",
-      "repo": "ScubaGear",
-      "branch": "main",
-      "layout": "tree",
-      "trust": "official",
-      "license": "CC0-1.0",
-      "note": "DEPOT-MODULE. Evaluation officielle CISA des configurations M365. Domaine public. Compatibilite PowerShell 7 travaillee par le projet.",
-      "enabled": false
-    },
-    {
-      "id": "entraexporter",
-      "name": "Microsoft EntraExporter",
-      "owner": "microsoft",
-      "repo": "EntraExporter",
-      "branch": "main",
-      "layout": "tree",
-      "trust": "official",
-      "license": "MIT",
-      "note": "DEPOT-MODULE Microsoft. Exporte la configuration Entra en JSON. S'utilise par cmdlets, pas par scripts.",
-      "enabled": false
-    },
-    {
-      "id": "m365dsc",
-      "name": "Microsoft365DSC",
-      "owner": "Microsoft365DSC",
-      "repo": "Microsoft365DSC",
-      "branch": "Dev",
-      "layout": "tree",
-      "trust": "official",
-      "license": "MIT",
-      "note": "DEPOT-MODULE. Configuration as code : 1741 .ps1 et 576 .psm1, aucun a la racine. Branche par defaut : Dev. Relevant d'une categorie a part.",
-      "enabled": false
-    },
-    {
       "id": "monkey365",
       "name": "Monkey365",
       "owner": "silverhack",
@@ -124,8 +76,12 @@
       "layout": "tree",
       "trust": "verified",
       "license": "Apache-2.0",
-      "note": "DEPOT-MODULE. Evaluation de securite M365, Azure et Entra, avec benchmarks CIS. Embarque ses dependances.",
-      "enabled": false
+      "note": "Deux points d'entree seulement : Invoke-Monkey365.ps1 et monkey365.ps1. Les 388 autres .ps1 du depot sont le coeur du module et ses collecteurs, des fonctions internes qui ne se lancent pas seules.",
+      "enabled": false,
+      "include": [
+        "/invoke-monkey365.ps1",
+        "/monkey365.ps1"
+      ]
     },
     {
       "id": "msendpointmgr",
@@ -152,18 +108,6 @@
       "enabled": false
     },
     {
-      "id": "dctoolbox",
-      "name": "DCToolbox",
-      "owner": "DanielChronlund",
-      "repo": "DCToolbox",
-      "branch": "main",
-      "layout": "tree",
-      "trust": "community",
-      "license": "aucune",
-      "note": "DEPOT-MODULE. Entra, acces conditionnel, Zero Trust. Sans mise a jour depuis novembre 2024 : verifier la fraicheur.",
-      "enabled": false
-    },
-    {
       "id": "365inspect",
       "name": "365Inspect",
       "owner": "soteria-security",
@@ -172,8 +116,12 @@
       "layout": "tree",
       "trust": "verified",
       "license": "MIT",
-      "note": "Evaluation de securite M365. Verifie lui-meme ses modules : bonne reference pour notre futur Health Check.",
-      "enabled": false
+      "note": "Deux points d'entree : 365Inspect.ps1, qui mene l'audit, et Create-365InspectApp.ps1, qui prepare l'application Entra. Les 108 fichiers d'Inspectors/ sont des fonctions appelees par le premier.",
+      "enabled": false,
+      "include": [
+        "/365inspect.ps1",
+        "/create-365inspectapp.ps1"
+      ]
     },
     {
       "id": "mggraph-intune",
