@@ -4,7 +4,11 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles propres
 à ce catalogue décrites dans [docs/VERSIONING.md](docs/VERSIONING.md).
 
-## [Non publié]
+## [2.2.0] - 2026-09-07
+
+### Ajouté
+
+- **Une règle de versionnage pour les changements de schéma, d'outillage et de documentation.** Le cas n'était pas prévu : entre la 2.1.1 et cette version, le schéma a perdu deux champs sans qu'une ligne de `catalog.json` bouge, et rien ne disait quel numéro incrémenter. Voir [docs/VERSIONING.md](docs/VERSIONING.md).
 
 ### Modifié
 
@@ -14,7 +18,6 @@ Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles prop
 ### Retiré
 
 - **Les champs de recommandation des tâches : `best`, `why` et `alternatives`.** Ils désignaient, dans le catalogue partagé, le script retenu pour une tâche et ses replis. C'était le seul endroit où ce dépôt portait un jugement sur le travail d'autrui, sur des sources qu'il ne contrôle pas et dont trois ne déclarent aucune licence. Le jugement sur un script est désormais local au poste de celui qui le porte : l'application le tient dans son profil, il ne se publie pas ici. Aucune tâche ne les renseignait, il n'y a donc rien à migrer. `schemaVersion` reste à 1 ; les trois champs sont maintenant refusés comme champs inconnus.
-
 - **Le champ de source `metadataStyle`.** Aucune source ne le renseignait, aucun outil ne le lisait, il n'était documenté nulle part, et son énumération portait le nom d'une source particulière. Retiré du schéma et du validateur. `schemaVersion` reste à 1 : aucun catalogue existant n'utilisait ce champ.
 - L'exemple de `docs/SCHEMA.md` désigne désormais `o365itpros`, la source la plus fournie, plutôt qu'une source citée par habitude.
 

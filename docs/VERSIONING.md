@@ -38,6 +38,25 @@ L'application compare simplement cette chaîne à celle de sa copie locale : tou
 - Note ajoutée ou précisée sur un script déjà annoté.
 - Correction d'une faute, d'un intitulé, d'une icône.
 
+### Et quand c'est le schema, l'outillage ou la documentation qui change ?
+
+Le cas n'etait pas prevu, et il s'est presente : entre la 2.1.1 et la 2.2.0, le
+schema a perdu deux champs et le validateur les controles qui allaient avec,
+sans qu'une seule ligne de `catalog.json` bouge.
+
+La regle retenue : **ces changements incrementent quand meme `catalogVersion`**,
+au niveau MINEUR s'ils retirent ou ajoutent un champ, CORRECTIF s'ils ne font
+que corriger un controle ou une formulation. Le depot n'a pas d'autre numero a
+donner, et une version non etiquetee n'est pas restaurable.
+
+Le cout est connu et assume : les postes verront une pastille « mise a jour
+disponible » pour un contenu identique au leur, a la chaine de version pres. Le
+telechargement fait quelques dizaines de kilo-octets et rien ne change a
+l'ecran. C'est le prix d'un historique ou chaque etat publie porte un nom.
+
+`schemaVersion`, lui, ne bouge toujours pas : retirer un champ facultatif que
+personne ne renseignait ne rend le fichier illisible pour aucune application.
+
 ## En pratique
 
 1. Modifier `catalog.json`.
