@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/catalog.schema.json",
   "schemaVersion": 1,
-  "catalogVersion": "2.1.1",
+  "catalogVersion": "2.2.0",
   "name": "Catalogue PowerShell Microsoft 365",
   "description": "Sources, regles de compatibilite PowerShell 7, index publies et annotations pour PS Admin Launcher. Seuls des scripts lancables sont references.",
   "okLabel": "PS7",
