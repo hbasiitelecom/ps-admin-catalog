@@ -195,16 +195,11 @@ def validate(cat: dict) -> set:
             fail(f"{w} : « impact » doit valoir lecture, modification ou destructif. "
                  "C'est la barriere qui empeche de proposer un script de rapport la "
                  "ou l'on veut supprimer.")
-        ref = t.get("best")
-        if ref is not None:
-            if not isinstance(ref, str) or ":" not in ref:
-                fail(f"{w} : « best » doit etre une reference « sourceId:chemin ».")
-            elif ref.split(":", 1)[0] not in source_ids:
-                fail(f"{w} : « best » designe la source « {ref.split(':', 1)[0]} », inconnue.")
-        for j, a in enumerate(t.get("alternatives") or []):
-            if not isinstance(a, dict) or not a.get("ref"):
-                fail(f"{w}.alternatives[{j}] : « ref » est obligatoire.")
-        known_task = {"id", "label", "keywords", "impact", "signature", "best", "why", "alternatives"}
+        # « best », « why » et « alternatives » ont ete retires : le catalogue
+        # partage decrit des taches, il ne designe plus de script retenu. Un avis
+        # sur un script est un jugement, il vit sur le poste de celui qui le porte
+        # et ne se publie pas ici. Les champs sont donc refuses comme inconnus.
+        known_task = {"id", "label", "keywords", "impact", "signature"}
         for extra in sorted(set(t) - known_task):
             fail(f"{w} : champ inconnu « {extra} ».")
 
