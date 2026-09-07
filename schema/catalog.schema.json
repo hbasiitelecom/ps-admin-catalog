@@ -79,7 +79,7 @@
     },
     "tasks": {
       "type": "array",
-      "description": "Taches : une intention d'administrateur, ses mots-cles, et la signature de cmdlets qui rapproche les candidats. Facultatif et retrocompatible.",
+      "description": "Taches : une intention d'administrateur, ses mots-cles, et la signature de cmdlets qui rapproche les candidats. Une tache decrit ce que l'on cherche ; elle ne designe pas de script retenu. Le jugement sur un script est local au poste, il ne se publie pas ici. Facultatif et retrocompatible.",
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -119,31 +119,6 @@
             "items": {
               "type": "string",
               "pattern": "^[A-Za-z]+-[A-Za-z0-9]+$"
-            }
-          },
-          "best": {
-            "type": "string",
-            "description": "Reference sourceId:chemin du script retenu. Ecrit par un humain, il passe devant le classement automatique."
-          },
-          "why": {
-            "type": "string",
-            "description": "La raison du choix, en une phrase. Un jugement assume, pas un score."
-          },
-          "alternatives": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "required": [
-                "ref"
-              ],
-              "properties": {
-                "ref": {
-                  "type": "string"
-                },
-                "when": {
-                  "type": "string"
-                }
-              }
             }
           }
         }
