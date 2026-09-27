@@ -119,6 +119,38 @@ function Get-ScriptMetadata {
         $ast = [System.Management.Automation.Language.Parser]::ParseInput($raw, [ref]$tok, [ref]$perr)
     } catch { $ast = $null }
 
+    # Le code, sans les commentaires.
+    #
+    # Les regles de compatibilite et la detection des services s'appliquaient au
+    # texte brut : un lien vers la documentation .NET de Microsoft, ou une note
+    # citant une cmdlet retiree, suffisait a marquer un script. Mesure du
+    # 27 septembre 2026 sur les 836 fiches produites ici : 53 scripts marques
+    # « Obsolete », dont 4 a tort.
+    #
+    # L'application a recu la meme correction en 1.20.0. Elle ne suffisait pas :
+    # le statut des sources publiees est calcule ICI, pas chez elle. Deux copies
+    # de la meme logique, une seule corrigee.
+    #
+    # On blanchit plutot que de retirer, pour que les numeros de ligne restent
+    # ceux du fichier - ils servent aux constats. Et par les jetons de
+    # l'analyseur, pas par expression reguliere : un diese dans une chaine ou
+    # dans un document en ligne n'est pas un commentaire.
+    $code = $raw
+    if ($ast -and $tok) {
+        try {
+            $sb = [Text.StringBuilder]::new($raw)
+            foreach ($t in $tok) {
+                if ($t.Kind -ne [System.Management.Automation.Language.TokenKind]::Comment) { continue }
+                $d = $t.Extent.StartOffset
+                $n = $t.Extent.EndOffset - $d
+                for ($k = 0; $k -lt $n; $k++) {
+                    if ($sb[$d + $k] -ne "`n" -and $sb[$d + $k] -ne "`r") { $sb[$d + $k] = ' ' }
+                }
+            }
+            $code = $sb.ToString()
+        } catch { $code = $raw }
+    }
+
     # La premiere ligne ou chaque commande apparait : c'est elle qui rend un constat
     # verifiable. Un constat sans numero de ligne oblige a relire tout le script.
     $commands = @(); $cmdLine = @{}
@@ -154,7 +186,7 @@ function Get-ScriptMetadata {
     if ($hu.Success) { $docUrl = $hu.Groups['v'].Value.TrimEnd('.', ',', ')') }
 
     $services = @()
-    foreach ($svc in $Cat.services) { if ($svc.pattern -and $raw -match $svc.pattern) { $services += [string]$svc.label } }
+    foreach ($svc in $Cat.services) { if ($svc.pattern -and $code -match $svc.pattern) { $services += [string]$svc.label } }
     if (-not $services) { $services = @($FallbackService) }
 
     $status = 'ok'
@@ -165,7 +197,7 @@ function Get-ScriptMetadata {
         $sev = [string]$rule.severity
         if (-not $SeverityRank.ContainsKey($sev)) { continue }
         if ($SeverityRank[$sev] -le $SeverityRank[$status]) { continue }
-        try { $hit = $raw -match $rule.pattern } catch { $hit = $false }
+        try { $hit = $code -match $rule.pattern } catch { $hit = $false }
         if ($hit) { $status = $sev; $badge = if ($rule.label) { [string]$rule.label } else { $sev }; $reason = [string]$rule.reason }
     }
 

@@ -4,6 +4,21 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles propres
 à ce catalogue décrites dans [docs/VERSIONING.md](docs/VERSIONING.md).
 
+## [2.2.1] - 2026-09-27
+
+### Corrigé
+
+- **Le constructeur d'index appliquait les règles de compatibilité aux commentaires.** Un lien vers la documentation .NET de Microsoft, une note citant une cmdlet retirée : il suffisait qu'un script *mentionne* `Get-AzureADUser` pour que l'index publié le marque **Obsolète**, avec la phrase « il ne fonctionnera pas en l'état ».
+
+  Mesuré sur les 836 fiches produites ici : **53 scripts marqués Obsolète, dont 4 à tort**. Un faux positif sur treize, sur le badge le plus sévère, désignant des scripts qui fonctionnent.
+
+  Les commentaires sont désormais blanchis avant l'application des motifs, par les jetons de l'analyseur et non par expression régulière : un `#` dans une chaîne ou dans un document en ligne n'est pas un commentaire. Vérifié sur trois cas, dont celui-là.
+
+  **Pourquoi ce correctif arrive ici en second.** L'application a reçu le même le 27 septembre, en 1.20.0. Cela ne suffisait pas : le statut des sources publiées est calculé **par ce dépôt**, pas par l'application. Deux copies de la même logique, une seule corrigée. La mesure qui a motivé la 1.20.0 portait sur les fiches produites ici, donc le défaut mesuré n'était pas celui qui venait d'être corrigé.
+- `catalogVersion` passe à 2.2.1. Le contenu de `catalog.json` ne change pas, mais l'index produit change : quatre fiches perdent un badge qu'elles n'auraient jamais dû porter. C'est un CORRECTIF au sens de [docs/VERSIONING.md](docs/VERSIONING.md) : *correction d'une expression régulière qui produisait un faux positif*.
+
+---
+
 ## [2.2.0] - 2026-09-07
 
 ### Ajouté
