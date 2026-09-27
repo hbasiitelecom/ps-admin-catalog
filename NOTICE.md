@@ -25,7 +25,6 @@ Les scripts référencés **ne sont pas couverts par la licence de ce dépôt**.
 | [`MSEndpointMgr/Intune`](https://github.com/MSEndpointMgr/Intune) | MIT |
 | [`Apoc70/Exchange4ITPros`](https://github.com/Apoc70/Exchange4ITPros) | MIT |
 | [`soteria-security/365Inspect`](https://github.com/soteria-security/365Inspect) | MIT |
-| [`silverhack/monkey365`](https://github.com/silverhack/monkey365) | Apache-2.0 |
 | [`Mike-Crowley/Public-Scripts`](https://github.com/Mike-Crowley/Public-Scripts) | GPL-3.0 |
 | [`admindroid-community/powershell-scripts`](https://github.com/admindroid-community/powershell-scripts) | **aucune** |
 | [`m365corner/M365Corner-Scripts`](https://github.com/m365corner/M365Corner-Scripts) | **aucune** |

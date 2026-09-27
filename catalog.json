@@ -1,7 +1,7 @@
 {
   "$schema": "./schema/catalog.schema.json",
   "schemaVersion": 1,
-  "catalogVersion": "2.2.3",
+  "catalogVersion": "3.0.0",
   "name": "Catalogue PowerShell Microsoft 365",
   "description": "Sources, regles de compatibilite PowerShell 7, index publies et annotations pour PS Admin Launcher. Seuls des scripts lancables sont references.",
   "okLabel": "PS7",
@@ -66,22 +66,6 @@
       "license": "MIT",
       "note": "Structure par service, un README par script. Seulement 14 fichiers .ps1 : verifier le rendement avant activation.",
       "enabled": false
-    },
-    {
-      "id": "monkey365",
-      "name": "Monkey365",
-      "owner": "silverhack",
-      "repo": "monkey365",
-      "branch": "main",
-      "layout": "tree",
-      "trust": "verified",
-      "license": "Apache-2.0",
-      "note": "Deux points d'entree seulement : Invoke-Monkey365.ps1 et monkey365.ps1. Les 388 autres .ps1 du depot sont le coeur du module et ses collecteurs, des fonctions internes qui ne se lancent pas seules.",
-      "enabled": false,
-      "include": [
-        "/invoke-monkey365.ps1",
-        "/monkey365.ps1"
-      ]
     },
     {
       "id": "msendpointmgr",
