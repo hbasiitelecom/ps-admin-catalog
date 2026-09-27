@@ -48,7 +48,7 @@ L'action `.github/workflows/build-index.yml` l'exécute :
 - toutes les semaines, le lundi à 4 h UTC, pour suivre les commits des sources ;
 - à la demande, avec le choix des sources à reconstruire et l'option d'inclure les sources désactivées.
 
-Elle valide le catalogue avant de générer, et ne publie que si quelque chose a changé.
+Elle valide le catalogue avant de générer, compare la construction à la précédente, et ne publie que si quelque chose a changé.
 
 ## Pourquoi une branche à part
 
@@ -58,7 +58,31 @@ Un `git push` direct sur `main` est refusé par la protection - c'est le but de 
 
 Une demande de fusion avec fusion automatique ne marche pas non plus : **GitHub ne déclenche pas les vérifications requises sur une demande ouverte par l'action elle-même**, par prévention des boucles. La vérification reste en attente, la fusion automatique ne se conclut jamais, et la demande s'accumule chaque semaine.
 
-Les index sont un produit dérivé, pas le catalogue. Ils vivent donc sur la branche `index`, que l'action détient seule et réécrit à chaque construction. `main` reste protégée sans exception, l'action n'y touche jamais, et l'historique de la branche `index` ne s'accumule pas.
+Les index sont un produit dérivé, pas le catalogue. Ils vivent donc sur la branche `index`, que l'action détient seule. `main` reste protégée sans exception, et l'action n'y touche jamais.
+
+## Comparer deux constructions
+
+La branche `index` était **réécrite** à chaque construction, en orphelin poussé en force, pour que son historique ne s'accumule pas. Le prix a été payé le 27 septembre 2026 : après un correctif sur les commentaires, le nombre de fiches marquées obsolètes est passé de 53 à 50 là où l'arithmétique en attendait 49. « Lesquelles ont changé » était sans réponse, l'état précédent n'existant plus.
+
+Depuis, chaque construction s'empile sur la précédente et la poussée n'est plus en force. Le coût est mesuré : dix fichiers JSON, environ 1,2 Mo par construction, une construction par semaine, des écarts minces que git stocke en delta. Quelques mégaoctets par an pour un historique du corpus semaine après semaine.
+
+L'action compare avant de publier, et le résultat arrive en annotation sur l'exécution : combien de fiches en plus, en moins, et le décompte des changements de statut par transition (`3 broken -> ok`).
+
+La même comparaison se fait à la main, entre deux révisions quelconques de la branche :
+
+```bash
+git fetch origin index
+mkdir -p /tmp/idx-avant /tmp/idx-apres
+git archive refs/remotes/origin/index~1 | tar -x -C /tmp/idx-avant
+git archive refs/remotes/origin/index   | tar -x -C /tmp/idx-apres
+python3 tools/comparer_index.py /tmp/idx-avant /tmp/idx-apres
+```
+
+Remplacer `~1` par `~4` compare à un mois, et `refs/remotes/origin/index~N` par n'importe quel identifiant de révision.
+
+L'historique commence à la première construction publiée après ce changement : `~1` n'a de sens qu'à partir de la deuxième.
+
+`tools/comparer_index.py` compare `Status`, `Impact` et `Badge`, fiche par fiche, identifiants confondus toutes sources : une fiche dont le fichier d'index change de nom apparaît comme **changée**, pas comme retirée puis ajoutée.
 
 ## Ce qui reste possible sans réseau
 

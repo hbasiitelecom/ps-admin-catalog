@@ -54,6 +54,24 @@ jobs:
           if ($env:INCLUDE_DISABLED -ne 'false') { $p.IncludeDisabled = $true }
           & ./tools/Build-SourceIndex.ps1 @p
 
+      - name: Comparer a la construction precedente
+        env:
+          BRANCH: index
+        run: |
+          set -o pipefail
+          if ! ls index/*.json >/dev/null 2>&1; then
+            echo "::error::Aucun index construit : rien a comparer."
+            exit 1
+          fi
+          # On extrait l'etat precedent AVANT de basculer sur la branche « index » :
+          # apres la bascule, tools/ et catalog.json ne sont plus dans l'arbre.
+          mkdir -p /tmp/index-precedent
+          git fetch --depth 1 origin "+refs/heads/$BRANCH:refs/remotes/origin/$BRANCH" || true
+          if git rev-parse -q --verify "refs/remotes/origin/$BRANCH" >/dev/null; then
+            git archive "refs/remotes/origin/$BRANCH" | tar -x -C /tmp/index-precedent
+          fi
+          python3 tools/comparer_index.py /tmp/index-precedent index --annoter
+
       - name: Publier sur la branche « index »
         env:
           BRANCH: index
@@ -73,15 +91,39 @@ jobs:
 
           # Les index sont un produit derive, pas le catalogue : ils ne vont pas sur
           # main. main reste protege, l'action n'y touche jamais et n'a besoin
-          # d'aucune derogation. La branche « index » ne porte que les fichiers
-          # d'index, a sa racine, et elle est reecrite a chaque construction :
-          # l'historique n'enfle pas.
-          git checkout --orphan pub
-          git reset -q
+          # d'aucune derogation.
+          #
+          # La branche « index » etait auparavant reecrite a chaque construction, en
+          # orphelin pousse en force, pour que l'historique n'enfle pas. Le prix
+          # etait lourd et il a ete paye le 27 septembre 2026 : apres un correctif,
+          # le nombre de fiches marquees Obsolete est passe de 53 a 50 la ou
+          # l'arithmetique en attendait 49, et « lesquelles ont change » etait sans
+          # reponse, l'etat precedent n'existant plus.
+          #
+          # On construit donc PAR-DESSUS la branche existante, et on pousse sans
+          # force. Cout reel : dix fichiers JSON, environ 1,2 Mo, par construction,
+          # dont une par semaine par le declencheur horaire. Les ecarts d'une
+          # semaine a l'autre sont minces et git les stocke en delta. Quelques Mo
+          # par an, pour un historique du corpus semaine par semaine - ce qui vaut
+          # bien plus que l'espace economise.
+          git fetch --depth 1 origin "+refs/heads/$BRANCH:refs/remotes/origin/$BRANCH" || true
+          if git rev-parse -q --verify "refs/remotes/origin/$BRANCH" >/dev/null; then
+            git checkout -B pub "refs/remotes/origin/$BRANCH"
+            # Une source retiree du catalogue doit disparaitre de la branche.
+            git rm -q --ignore-unmatch '*.json' || true
+          else
+            git checkout --orphan pub
+            git reset -q
+          fi
           mv index/*.json .
           for f in *.json; do
             [ "$f" = 'catalog.json' ] || git add -f "$f"
           done
+          # Rien a publier quand rien n'a bouge : evite une revision vide par semaine.
+          if git diff --cached --quiet; then
+            echo "Aucun changement d'index : rien a publier."
+            exit 0
+          fi
           try git commit -m "chore(index): index construits depuis ${GITHUB_SHA:0:10}"
-          try git push --force origin "HEAD:refs/heads/$BRANCH"
+          try git push origin "HEAD:refs/heads/$BRANCH"
           echo "Publie sur la branche $BRANCH."
