@@ -4,6 +4,18 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles propres
 à ce catalogue décrites dans [docs/VERSIONING.md](docs/VERSIONING.md).
 
+## [3.0.0] - 2026-09-27
+
+### Retiré
+
+- **La source `monkey365`.** Elle produisait **zéro fiche** : le dépôt amont a été restructuré et il ne reste aucun `.ps1` à la racine. Les deux points d'entrée déclarés ici n'existent plus. `Invoke-Monkey365.ps1` a migré dans `src/monkey365/` et n'est plus un script mais une **définition de fonction** : le lancer ne ferait rien. Le seul autre candidat, `docker/monkey365.ps1`, fait quatre lignes et suppose le module déjà importé. Monkey365 s'utilise désormais comme un module, pas comme un script à lancer, et ce catalogue ne référence que des scripts lançables.
+
+  Incrément **MAJEUR** conformément à [docs/VERSIONING.md](docs/VERSIONING.md) : retirer l'`id` d'une source rend orphelins les favoris et l'historique qui s'y réfèrent. Ici le risque réel est nul, la source n'a jamais produit une seule fiche.
+
+  Retirée aussi du tableau des licences du README et de [NOTICE.md](NOTICE.md).
+
+---
+
 ## [2.2.3] - 2026-09-27
 
 ### Ajouté

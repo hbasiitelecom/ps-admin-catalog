@@ -67,7 +67,6 @@ L'application signale les nouvelles versions sans rien écraser : la mise à jou
 | Mike Crowley | [`Mike-Crowley/Public-Scripts`](https://github.com/Mike-Crowley/Public-Scripts) | 38 | GPL-3.0 |
 | Devolutions ScriptLibrary | [`Devolutions/ScriptLibrary`](https://github.com/Devolutions/ScriptLibrary) | 19 | *aucune* |
 | Exchange4ITPros | [`Apoc70/Exchange4ITPros`](https://github.com/Apoc70/Exchange4ITPros) | 14 | MIT |
-| Monkey365 | [`silverhack/monkey365`](https://github.com/silverhack/monkey365) | 2 | Apache-2.0 |
 | 365Inspect | [`soteria-security/365Inspect`](https://github.com/soteria-security/365Inspect) | 2 | MIT |
 
 > [!IMPORTANT]
