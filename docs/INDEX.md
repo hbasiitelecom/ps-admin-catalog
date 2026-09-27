@@ -27,7 +27,7 @@ Un fichier par source, à la racine de la branche `index` : `<sourceId>.json`.
 
 `rawBase` est épinglée sur le commit, jamais sur la branche : le fichier téléchargé est celui qui a été analysé, et pas une version poussée entre-temps. L'URL d'un script est `rawBase + RelPath`, celle de son README `rawBase + Folder + "/README.md"` quand `HasReadme` vaut vrai.
 
-Chaque fiche porte ce que l'application affichait déjà - nom, description, service, statut de compatibilité, impact réel, commandes appelées, modules, permissions Graph, bloc `param()` avec `ValidateSet` et paramètres sensibles - plus deux champs propres au mode à la demande :
+Chaque fiche porte ce que l'application affichait déjà - nom, description, service, statut de compatibilité, impact réel, commandes appelées, modules, permissions Graph, bloc `param()` avec `ValidateSet` et paramètres sensibles - plus les **types .NET qualifiés** employés (`Types`, relevés par l'arbre syntaxique : un script EWS n'appelle aucune cmdlet, tout passe par `[Microsoft.Exchange.WebServices.Data.ExchangeService]`), et deux champs propres au mode à la demande :
 
 - `Bytes` : la taille, affichée avant téléchargement
 - `Sha` : le **condensé d'objet git** du fichier, `sha1("blob <taille>\0" + contenu)`

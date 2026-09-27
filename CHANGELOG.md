@@ -4,6 +4,19 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles propres
 à ce catalogue décrites dans [docs/VERSIONING.md](docs/VERSIONING.md).
 
+## [2.2.3] - 2026-09-27
+
+### Ajouté
+
+- **Les types .NET employés entrent dans l'index.** Un script peut dépendre d'une bibliothèque sans appeler la moindre cmdlet : les scripts EWS passent tous par `[Microsoft.Exchange.WebServices.Data.ExchangeService]`, et c'est pourtant ce qui décide s'ils tournent encore sous PowerShell 7. Le champ `Types` de chaque fiche porte les noms **qualifiés** relevés par l'arbre syntaxique, plus `[adsi]` et `[wmi]`, qui disent qu'un script suppose un poste joint au domaine. Les types primitifs restent dehors : `[string]` n'apprend rien.
+
+  L'application les cherche avec `type:` depuis la 1.21.0. Le relevé est ajouté **ici en même temps que là-bas** : c'est la leçon du 27 septembre, où la même logique existait en deux exemplaires et où une seule copie avait été corrigée.
+
+  `indexVersion` reste à **2** : un champ facultatif ajouté ne rend pas l'index illisible pour une application plus ancienne, qui l'ignore simplement. Bouger la version l'aurait fait retomber sur le clonage de 500 Mo.
+- `catalogVersion` passe à 2.2.3, niveau CORRECTIF selon [docs/VERSIONING.md](docs/VERSIONING.md) : c'est de l'outillage, aucun statut ni badge ne change.
+
+---
+
 ## [2.2.2] - 2026-09-27
 
 ### Ajouté

@@ -42,6 +42,11 @@ $DefaultImpactVerbs = @{
     modify      = @('Set','New','Add','Update','Enable','Disable','Grant','Register','Move','Rename','Send','Invoke','Start')
     destructive = @('Remove','Delete','Clear','Reset','Revoke','Uninstall','Unregister','Block')
 }
+# Les accelerateurs de type qui entrent dans l'index malgre l'absence de point :
+# [adsi] et [wmi] sont des liaisons Windows, pas du .NET portable, et leur presence
+# explique souvent pourquoi un script suppose un poste joint au domaine.
+$TypesRemarquables = @('adsi', 'adsisearcher', 'wmi', 'wmiclass', 'wmisearcher', 'directoryservices')
+
 $DefaultIgnoredCommands = @(
     'New-Object','Add-Member','Set-Content','Add-Content','Out-File','Export-Csv','Import-Csv',
     'Export-Clixml','Import-Clixml','Write-Host','Write-Output','Write-Progress','Write-Warning',
@@ -164,6 +169,31 @@ function Get-ScriptMetadata {
             }
             $commands = @($cmdLine.Keys | Sort-Object)
         } catch { $commands = @(); $cmdLine = @{} }
+    }
+
+    # Les types .NET employes. Un script peut dependre d'une bibliotheque sans
+    # appeler la moindre cmdlet - les scripts EWS passent tous par
+    # [Microsoft.Exchange.WebServices.Data.ExchangeService] - et c'est pourtant ce
+    # qui decide s'ils tournent encore. On ne garde que les noms qualifies, plus une
+    # courte liste d'accelerateurs qui portent une information de compatibilite :
+    # sans ce filtre, chaque [string] du corpus entrerait dans l'index.
+    #
+    # Meme releve que dans PS-Admin-Launcher.ps1, et pour la meme raison que le
+    # blanchiment des commentaires ci-dessus : deux copies de la meme logique, il
+    # faut corriger les deux. Toute modification ici va aussi la-bas.
+    $types = @()
+    if ($ast) {
+        try {
+            $bruts = @($ast.FindAll({ param($n)
+                        $n -is [System.Management.Automation.Language.TypeExpressionAst] -or
+                        $n -is [System.Management.Automation.Language.TypeConstraintAst] }, $true) |
+                       ForEach-Object { try { [string]$_.TypeName.FullName } catch { '' } } |
+                       Where-Object { $_ })
+            $types = @($bruts |
+                       Where-Object { $_.Contains('.') -or ($_.ToLowerInvariant() -in $TypesRemarquables) } |
+                       Sort-Object -Unique |
+                       Select-Object -First 40)
+        } catch { $types = @() }
     }
 
     $header = ''
@@ -290,7 +320,7 @@ function Get-ScriptMetadata {
         Services = $services; ServicesText = ($services -join ' · ')
         Status = $status; Badge = $badge; Reason = $reason
         Impact = $impact; ImpactEvidence = @($impactEvidence)
-        Commands = @($commands); Modules = @($modules); Scopes = @($scopes); Findings = @($findings)
+        Commands = @($commands); Types = @($types); Modules = @($modules); Scopes = @($scopes); Findings = @($findings)
         Notes = ''; Parameters = @($parameters); Hidden = $false
         Bytes = [int]$File.Length
         Sha = ''         # renseigne ensuite depuis git ls-tree
