@@ -50,6 +50,9 @@ jobs:
             python3 tools/validate_catalog.py catalog.json --check-format
           fi
 
+      - name: Verifier l'outil de comparaison des index
+        run: python3 tools/test_comparer_index.py
+
       - name: Verifier la coherence du schema JSON
         run: |
           python3 -c "import json,sys; json.load(open('schema/catalog.schema.json',encoding='utf-8')); print('schema JSON bien forme')"

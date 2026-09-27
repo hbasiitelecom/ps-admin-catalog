@@ -4,6 +4,22 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles propres
 à ce catalogue décrites dans [docs/VERSIONING.md](docs/VERSIONING.md).
 
+## [2.2.2] - 2026-09-27
+
+### Ajouté
+
+- **`tools/comparer_index.py` : deux constructions d'index se comparent enfin.** La branche `index` était réécrite à chaque construction, en orphelin poussé en force, pour que son historique ne s'accumule pas. Le prix a été payé le 27 septembre : après le correctif 2.2.1, le nombre de fiches marquées obsolètes est passé de 53 à 50 là où l'arithmétique en attendait 49. « Lesquelles ont changé » était sans réponse, l'état précédent n'existant plus.
+
+  L'outil compare `Status`, `Impact` et `Badge` fiche par fiche, et rend les ajouts, les retraits, les changements et le décompte des transitions de statut (`3 broken -> ok`). Il compare **à plat**, identifiants confondus toutes sources : une fiche dont le fichier d'index change de nom apparaît comme changée, pas comme retirée puis ajoutée.
+
+### Modifié
+
+- **La branche `index` conserve son historique.** L'action s'empile désormais sur la construction précédente et pousse sans `--force`. Coût mesuré : dix fichiers JSON, environ 1,2 Mo par construction, une construction par semaine, des écarts que git stocke en delta. Quelques mégaoctets par an pour un historique du corpus semaine après semaine. Une construction identique à la précédente ne crée aucune révision.
+- **L'action compare avant de publier**, et le résultat arrive en annotation sur l'exécution. L'état précédent est extrait *avant* la bascule de branche : après elle, `tools/` et `catalog.json` ne sont plus dans l'arbre de travail.
+- `catalogVersion` passe à 2.2.2. Ni `catalog.json` ni les index produits ne changent : c'est un changement d'outillage, incrémenté au niveau CORRECTIF selon [docs/VERSIONING.md](docs/VERSIONING.md), pour qu'aucun état publié ne reste sans nom.
+
+---
+
 ## [2.2.1] - 2026-09-27
 
 ### Corrigé
