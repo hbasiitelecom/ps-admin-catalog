@@ -1,7 +1,7 @@
 {
   "indexVersion": 2,
-  "catalogVersion": "3.0.0",
-  "builtUtc": "2026-09-28T10:23:27.9214296Z",
+  "catalogVersion": "3.0.1",
+  "builtUtc": "2026-10-03T06:41:30.4836707Z",
   "sources": [
     {
       "id": "admindroid",
@@ -9,23 +9,23 @@
       "commit": "a0770ed26804f912653004ca9e7edcf9b10d35a1",
       "scripts": 183,
       "sizeKb": 414,
-      "builtUtc": "2026-09-28T10:23:13.2538872Z"
+      "builtUtc": "2026-10-03T06:41:19.0983731Z"
     },
     {
       "id": "o365itpros",
       "name": "Office365ITPros",
-      "commit": "4f989e01709ad3d7de16479fb3a058fe58e14d43",
+      "commit": "14b00a81dc7d547afc08aa1e488170b53a279a75",
       "scripts": 409,
       "sizeKb": 454,
-      "builtUtc": "2026-09-28T10:23:17.6038083Z"
+      "builtUtc": "2026-10-03T06:41:23.5112057Z"
     },
     {
       "id": "mike-crowley",
       "name": "Mike Crowley - Public Scripts",
-      "commit": "3c7e4a76eb10cd29bcd42d64795c55d0721f9e3c",
-      "scripts": 38,
-      "sizeKb": 56,
-      "builtUtc": "2026-09-28T10:23:19.2556128Z"
+      "commit": "125c39c80d76bd58bb242e25d9aac21ebbf364e1",
+      "scripts": 39,
+      "sizeKb": 59,
+      "builtUtc": "2026-10-03T06:41:24.7707712Z"
     },
     {
       "id": "m365corner",
@@ -33,7 +33,7 @@
       "commit": "225e6228087e2b4bfa8e7893aa420dfd189fa3b3",
       "scripts": 44,
       "sizeKb": 49,
-      "builtUtc": "2026-09-28T10:23:21.1081133Z"
+      "builtUtc": "2026-10-03T06:41:26.0729588Z"
     },
     {
       "id": "exchange4itpros",
@@ -41,7 +41,7 @@
       "commit": "f7f4c304c382365e8c6c261f90421dc42525f209",
       "scripts": 16,
       "sizeKb": 39,
-      "builtUtc": "2026-09-28T10:23:22.1864515Z"
+      "builtUtc": "2026-10-03T06:41:26.9243979Z"
     },
     {
       "id": "msendpointmgr",
@@ -49,7 +49,7 @@
       "commit": "dae99c9e8d33427cbe42326598f928943d8d33d3",
       "scripts": 62,
       "sizeKb": 93,
-      "builtUtc": "2026-09-28T10:23:23.5555024Z"
+      "builtUtc": "2026-10-03T06:41:27.9208428Z"
     },
     {
       "id": "devolutions",
@@ -57,7 +57,7 @@
       "commit": "9fda8b12288515e4f9eaf45a7602de53e3dadf85",
       "scripts": 19,
       "sizeKb": 29,
-      "builtUtc": "2026-09-28T10:23:24.5304028Z"
+      "builtUtc": "2026-10-03T06:41:28.6824419Z"
     },
     {
       "id": "365inspect",
@@ -65,7 +65,7 @@
       "commit": "1a97f595b020cdc3b36b86ed49fec31de0ca6c04",
       "scripts": 2,
       "sizeKb": 5,
-      "builtUtc": "2026-09-28T10:23:26.5117575Z"
+      "builtUtc": "2026-10-03T06:41:29.5561130Z"
     },
     {
       "id": "mggraph-intune",
@@ -73,7 +73,7 @@
       "commit": "2e668455288ebc43b7356b2d9b0c537e24c409f4",
       "scripts": 63,
       "sizeKb": 74,
-      "builtUtc": "2026-09-28T10:23:27.9138339Z"
+      "builtUtc": "2026-10-03T06:41:30.4757312Z"
     }
   ]
 }
