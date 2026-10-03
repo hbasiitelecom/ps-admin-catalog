@@ -47,6 +47,23 @@ $DefaultImpactVerbs = @{
 # explique souvent pourquoi un script suppose un poste joint au domaine.
 $TypesRemarquables = @('adsi', 'adsisearcher', 'wmi', 'wmiclass', 'wmisearcher', 'directoryservices')
 
+# Un motif venu du catalogue s'execute avec un delai, exactement comme dans
+# l'application (New-CatalogRegex). Les deux copies de cette logique bougent
+# ensemble : c'est la lecon du 27 septembre, et le constat 30 de l'audit du
+# 3 octobre.
+$script:RegexCache = @{}
+
+function New-CatalogRegex([string]$Pattern) {
+    if ($null -eq $script:RegexCache) { $script:RegexCache = @{} }
+    if (-not $script:RegexCache.ContainsKey($Pattern)) {
+        $script:RegexCache[$Pattern] = [regex]::new(
+            $Pattern,
+            [Text.RegularExpressions.RegexOptions]::IgnoreCase,
+            [TimeSpan]::FromSeconds(1))
+    }
+    $script:RegexCache[$Pattern]
+}
+
 $DefaultIgnoredCommands = @(
     'New-Object','Add-Member','Set-Content','Add-Content','Out-File','Export-Csv','Import-Csv',
     'Export-Clixml','Import-Clixml','Write-Host','Write-Output','Write-Progress','Write-Warning',
@@ -216,7 +233,7 @@ function Get-ScriptMetadata {
     if ($hu.Success) { $docUrl = $hu.Groups['v'].Value.TrimEnd('.', ',', ')') }
 
     $services = @()
-    foreach ($svc in $Cat.services) { if ($svc.pattern -and $code -match $svc.pattern) { $services += [string]$svc.label } }
+    foreach ($svc in $Cat.services) { if ($svc.pattern -and (New-CatalogRegex ([string]$svc.pattern)).IsMatch($code)) { $services += [string]$svc.label } }
     if (-not $services) { $services = @($FallbackService) }
 
     $status = 'ok'
@@ -227,7 +244,7 @@ function Get-ScriptMetadata {
         $sev = [string]$rule.severity
         if (-not $SeverityRank.ContainsKey($sev)) { continue }
         if ($SeverityRank[$sev] -le $SeverityRank[$status]) { continue }
-        try { $hit = $code -match $rule.pattern } catch { $hit = $false }
+        try { $hit = (New-CatalogRegex ([string]$rule.pattern)).IsMatch($code) } catch { $hit = $false }
         if ($hit) { $status = $sev; $badge = if ($rule.label) { [string]$rule.label } else { $sev }; $reason = [string]$rule.reason }
     }
 
