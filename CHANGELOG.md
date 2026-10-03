@@ -4,6 +4,16 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles propres
 à ce catalogue décrites dans [docs/VERSIONING.md](docs/VERSIONING.md).
 
+## [3.0.1] - 2026-10-03
+
+### Corrigé
+
+- **Les motifs du catalogue s'exécutaient sans délai dans le constructeur d'index**, comme ils le faisaient dans l'application avant sa 1.26.0. Ils viennent du catalogue, donc du réseau : un motif à retour arrière catastrophique occupait le processeur sans fin. Ils sont compilés une fois, avec une seconde de délai.
+
+  Les deux copies de cette logique bougent **ensemble** cette fois : c'est la leçon du 27 septembre, et le constat 30 de l'audit du 3 octobre.
+
+---
+
 ## [3.0.0] - 2026-09-27
 
 ### Retiré
