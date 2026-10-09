@@ -53,6 +53,13 @@ jobs:
       - name: Verifier l'outil de comparaison des index
         run: python3 tools/test_comparer_index.py
 
+      # Le generateur clone des depots et prend des minutes : il ne tourne pas ici.
+      # Ses fonctions, elles, s'eprouvent hors reseau - dont le releve des fichiers
+      # voisins, qui decide ce que le poste telechargera.
+      - name: Verifier le generateur d'index
+        shell: pwsh
+        run: ./tools/Test-SourceIndex.ps1
+
       - name: Verifier la coherence du schema JSON
         run: |
           python3 -c "import json,sys; json.load(open('schema/catalog.schema.json',encoding='utf-8')); print('schema JSON bien forme')"

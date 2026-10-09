@@ -90,6 +90,71 @@ function Test-PathMatchesAny([string]$RelPath, [string[]]$Patterns) {
     return $false
 }
 
+# Les fichiers de donnees qu'un script lit a cote de lui.
+#
+# Le defaut du 9 octobre 2026 : le poste ne telecharge que le .ps1. Le rapport de
+# licences d'AdminDroid lit « .\LicenseFriendlyName.txt », 12 Ko, jamais descendu -
+# le script se connectait au locataire, puis echouait sur « Cannot find path ».
+# Le clone de depot d'avant la 1.4.0 ramenait tout le dossier ; le telechargement
+# a la demande ne ramene qu'un fichier.
+#
+# C'est l'index qui doit DECLARER ces fichiers, avec leur condense, pour que le
+# poste les descende et les verifie comme il verifie le script. Deviner le nom
+# chez le client reviendrait a telecharger sans rien a confronter.
+#
+# Ici on ne fait que relever des noms. Ce qui les rend surs, c'est la resolution
+# plus bas : un nom qui ne correspond a aucun blob de l'arbre au commit indexe
+# n'est pas declare. Un fichier que le script ECRIT au lieu de le lire disparait
+# donc de lui-meme.
+#
+# Les guillemets sont ecrits en hexadecimal dans les motifs : un apostrophe
+# litteral dans une chaine PowerShell a quotes simples doit etre double, et ce
+# genre de detail finit par etre casse a la premiere retouche.
+$CompanionExtensions = @('.txt', '.csv', '.json', '.xml', '.psd1', '.psm1', '.config', '.html', '.ps1')
+$CompanionNamePattern = '[A-Za-z0-9][\w .-]{0,100}\.[A-Za-z0-9]{1,8}'
+
+function Get-CompanionNames([string]$Code) {
+    if (-not $Code) { return @() }
+    $n0 = $CompanionNamePattern
+    $motifs = @(
+        "(?<![\w\\/.])\.[\\/](?<n>$n0)"              # .\nom.ext  ou  ./nom.ext
+        "\`$PSScriptRoot[\x22\x27\s\\/]+(?<n>$n0)"   # $PSScriptRoot\nom.ext, Join-Path compris
+    )
+    $noms = [System.Collections.Generic.List[string]]::new()
+    foreach ($m in $motifs) {
+        foreach ($hit in [regex]::Matches($Code, $m)) {
+            $n = $hit.Groups['n'].Value.Trim()
+            if ($n -match '[\\/]' -or $n.Contains('..')) { continue }
+            if ([IO.Path]::GetExtension($n).ToLowerInvariant() -notin $CompanionExtensions) { continue }
+            if ($noms -notcontains $n) { $noms.Add($n) }
+        }
+    }
+    @($noms)
+}
+
+# Ne declare que ce qui existe vraiment dans l'arbre au commit indexe, avec son
+# condense. Un nom sans blob est abandonne en silence : c'est le cas normal d'un
+# fichier de sortie.
+function Resolve-Companions([string]$ScriptRelPath, [string[]]$Names, $Blob, [string]$Root) {
+    if (-not $Names -or -not $Names.Count) { return @() }
+    $dir = [string]([IO.Path]::GetDirectoryName($ScriptRelPath)).Replace('\', '/')
+    $out = [System.Collections.Generic.List[object]]::new()
+    foreach ($n in $Names) {
+        $rel = if ($dir) { "$dir/$n" } else { $n }
+        if (-not $Blob.ContainsKey($rel)) { continue }
+        $plein = Join-Path $Root $rel.Replace('/', [string][IO.Path]::DirectorySeparatorChar)
+        $taille = 0
+        try { $taille = [int](Get-Item -LiteralPath $plein -ErrorAction Stop).Length } catch { continue }
+        $out.Add([pscustomobject]@{
+            Name    = $n
+            RelPath = $rel
+            Bytes   = $taille
+            Sha     = [string]$Blob[$rel]
+        })
+    }
+    @($out)
+}
+
 function Get-SourceScriptFiles($Source, [string]$Root) {
     $layout = if ($Source.layout) { [string]$Source.layout } else { 'folders' }
     $files = switch ($layout) {
@@ -340,6 +405,10 @@ function Get-ScriptMetadata {
         Commands = @($commands); Types = @($types); Modules = @($modules); Scopes = @($scopes); Findings = @($findings)
         Notes = ''; Parameters = @($parameters); Hidden = $false
         Bytes = [int]$File.Length
+        # Releve ici, resolu plus bas : le tableau des blobs n'existe que dans la
+        # boucle de generation.
+        CompanionNames = @(Get-CompanionNames $code)
+        Companions = @()
         Sha = ''         # renseigne ensuite depuis git ls-tree
         LastCommit = ''  # renseigne ensuite depuis l'historique
         HasHeader = [bool]$header
@@ -421,6 +490,10 @@ foreach ($src in $sources) {
                 $o = Get-ScriptMetadata -File $f -FolderName $folderName -Root $work -MultiInFolder $multi -Source $src -Cat $cat -ImpactVerbs $verbs
                 $o.Sha = [string]$blob[$o.RelPath]
                 $o.LastCommit = [string]$dates[$o.RelPath]
+                $o.Companions = @(Resolve-Companions $o.RelPath @($o.CompanionNames) $blob $work)
+                # Le releve brut ne part pas dans l'index : seuls les fichiers
+                # retrouves dans l'arbre, avec leur condense, y ont leur place.
+                $o.PSObject.Properties.Remove('CompanionNames')
                 $scripts.Add($o)
             } catch { Say "  ignore : $($f.Name) ($_)" DarkGray }
         }
@@ -452,6 +525,11 @@ foreach ($src in $sources) {
              @($scripts | Where-Object Status -eq 'broken').Count,
              [int]((Get-Item $file).Length / 1KB), ($sw.ElapsedMilliseconds / 1000)) Green
         if ($ko) { Say "$ko script(s) sans empreinte de blob" Yellow }
+        $avec = @($scripts | Where-Object { @($_.Companions).Count })
+        if ($avec.Count) {
+            $tot = ($avec | ForEach-Object { @($_.Companions).Count } | Measure-Object -Sum).Sum
+            Say "$($avec.Count) script(s) declarent $tot fichier(s) voisin(s)" Green
+        }
 
         $summary.Add([pscustomobject]@{
             id = [string]$src.id; name = [string]$src.name; commit = $commit
