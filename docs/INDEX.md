@@ -34,6 +34,14 @@ Chaque fiche porte ce que l'application affichait déjà - nom, description, ser
 
 `Sha` est ce qui rend le téléchargement vérifiable. L'application recalcule le condensé du fichier reçu et le compare : s'il diffère, le fichier n'est pas celui qui a été analysé, et il n'est pas exécuté.
 
+- `Companions[]` : les **fichiers de données que le script lit à côté de lui**, chacun avec `Name`, `RelPath`, `Bytes` et `Sha`
+
+`Companions` existe depuis le catalogue 3.1.0 et répond à un défaut réel : le téléchargement à la demande ne ramenait que le `.ps1`. Le rapport de licences d'AdminDroid lit `.\LicenseFriendlyName.txt`, 12 Ko, qui n'arrivait jamais - le script se connectait au locataire puis échouait sur `Cannot find path`. Le clone de dépôt d'avant la 1.4.0 ramenait tout le dossier ; le téléchargement d'un fichier ne ramène qu'un fichier.
+
+Le constructeur relève les noms dans le code, commentaires neutralisés, sous trois formes : `.\nom.ext`, `$PSScriptRoot\nom.ext` et `Join-Path $PSScriptRoot 'nom.ext'`. **Un nom relevé n'est déclaré que s'il correspond à un blob réel de l'arbre au commit indexé** : un nom inventé, un chemin avec séparateur, un retour en arrière et un fichier que le script *écrit* au lieu de le lire disparaissent d'eux-mêmes. Les fichiers déclarés se téléchargent et se vérifient exactement comme le script : `rawBase + RelPath`, condensé confronté.
+
+Le champ est **additif** : `indexVersion` reste à 2, et une application qui ne le connaît pas l'ignore sans rien casser.
+
 ## `manifest.json`
 
 Le sommaire : pour chaque source, son commit, son nombre de scripts, sa taille et sa date de construction. L'application le lit en premier - quelques kilo-octets - pour savoir ce qui a bougé, et ne retélécharge que les index dont le commit a changé.

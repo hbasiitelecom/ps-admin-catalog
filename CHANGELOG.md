@@ -4,6 +4,24 @@ Format inspiré de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 Le versionnage suit [SemVer](https://semver.org/lang/fr/), avec les règles propres
 à ce catalogue décrites dans [docs/VERSIONING.md](docs/VERSIONING.md).
 
+## [3.1.0] - 2026-10-09
+
+### Ajouté
+
+- **L'index déclare les fichiers de données que chaque script lit à côté de lui** : nouveau champ `Companions[]` sur chaque fiche, avec `Name`, `RelPath`, `Bytes` et `Sha`.
+
+  Le défaut qu'il corrige est réel et touchait **les deux programmes**. Depuis que le poste télécharge un script à la demande au lieu de cloner le dépôt, il ne ramène que le `.ps1`. Le rapport de licences d'AdminDroid fait `Get-Content -Path .\LicenseFriendlyName.txt` : ce fichier de 12 Ko n'arrivait jamais, et le script échouait sur `Cannot find path` après s'être connecté au locataire. Vu en le lançant pour de vrai depuis un Mac, le 9 octobre.
+
+  Le constructeur relève les noms dans le code, commentaires neutralisés par l'arbre syntaxique, sous trois formes : `.\nom.ext`, `$PSScriptRoot\nom.ext`, `Join-Path $PSScriptRoot 'nom.ext'`. **Rien n'est déclaré sur la foi d'un nom** : un nom n'entre dans l'index que s'il correspond à un blob réel de l'arbre au commit indexé, ce qui lui donne son condensé. Le poste télécharge donc un fichier voisin et le vérifie exactement comme il vérifie le script.
+
+  C'est la différence avec le contournement qui vivait dans le compagnon macOS : deviner un nom chez le client télécharge sans rien à confronter. Ce contournement est retiré en 0.2.0 du compagnon.
+
+  Le champ est **additif** : `indexVersion` reste à 2, et une application qui ne le connaît pas l'ignore. Documenté dans [docs/INDEX.md](docs/INDEX.md).
+
+- **14 vérifications du générateur d'index** (`tools/Test-SourceIndex.ps1`), dans la CI à chaque demande de fusion. Le générateur clone des dépôts et prend des minutes, il ne peut pas y tourner ; ses fonctions, elles, s'éprouvent hors réseau. Cinq d'entre elles sont des refus : une extension inconnue, un chemin avec séparateur, un retour en arrière, une URL, un fichier absent de l'arbre.
+
+---
+
 ## [3.0.1] - 2026-10-03
 
 ### Corrigé
