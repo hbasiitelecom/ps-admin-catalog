@@ -1,23 +1,23 @@
 {
   "indexVersion": 2,
   "catalogVersion": "3.1.0",
-  "builtUtc": "2026-11-02T11:55:42.5173065Z",
+  "builtUtc": "2026-11-09T12:25:13.5732603Z",
   "sources": [
     {
       "id": "admindroid",
       "name": "AdminDroid Community",
-      "commit": "a0770ed26804f912653004ca9e7edcf9b10d35a1",
-      "scripts": 183,
-      "sizeKb": 421,
-      "builtUtc": "2026-11-02T11:55:29.4959824Z"
+      "commit": "8d0c0e0efdc0f3a1972c891d44c01c6ff0bc8a66",
+      "scripts": 184,
+      "sizeKb": 424,
+      "builtUtc": "2026-11-09T12:25:00.4406205Z"
     },
     {
       "id": "o365itpros",
       "name": "Office365ITPros",
-      "commit": "ed927ed0120b5ca5f47e506c145be81954c5cdd8",
-      "scripts": 409,
-      "sizeKb": 461,
-      "builtUtc": "2026-11-02T11:55:36.6787017Z"
+      "commit": "c0d6abf3c0848434519d7951c504ea02ca54e852",
+      "scripts": 410,
+      "sizeKb": 463,
+      "builtUtc": "2026-11-09T12:25:06.1052529Z"
     },
     {
       "id": "mike-crowley",
@@ -25,7 +25,7 @@
       "commit": "2538813b1bf46b5eeb68338c547c44896b407935",
       "scripts": 39,
       "sizeKb": 60,
-      "builtUtc": "2026-11-02T11:55:38.1407512Z"
+      "builtUtc": "2026-11-09T12:25:07.4791131Z"
     },
     {
       "id": "m365corner",
@@ -33,7 +33,7 @@
       "commit": "225e6228087e2b4bfa8e7893aa420dfd189fa3b3",
       "scripts": 44,
       "sizeKb": 50,
-      "builtUtc": "2026-11-02T11:55:38.9841470Z"
+      "builtUtc": "2026-11-09T12:25:08.7524796Z"
     },
     {
       "id": "exchange4itpros",
@@ -41,7 +41,7 @@
       "commit": "42207b8eb27bdd84257bfecaf5389a64f26ac63e",
       "scripts": 17,
       "sizeKb": 41,
-      "builtUtc": "2026-11-02T11:55:39.7132873Z"
+      "builtUtc": "2026-11-09T12:25:09.7084516Z"
     },
     {
       "id": "msendpointmgr",
@@ -49,7 +49,7 @@
       "commit": "dae99c9e8d33427cbe42326598f928943d8d33d3",
       "scripts": 62,
       "sizeKb": 94,
-      "builtUtc": "2026-11-02T11:55:40.7355050Z"
+      "builtUtc": "2026-11-09T12:25:10.8209890Z"
     },
     {
       "id": "devolutions",
@@ -57,15 +57,15 @@
       "commit": "9fda8b12288515e4f9eaf45a7602de53e3dadf85",
       "scripts": 19,
       "sizeKb": 30,
-      "builtUtc": "2026-11-02T11:55:41.1973084Z"
+      "builtUtc": "2026-11-09T12:25:11.6266920Z"
     },
     {
       "id": "365inspect",
       "name": "365Inspect",
-      "commit": "1a97f595b020cdc3b36b86ed49fec31de0ca6c04",
+      "commit": "df21e17a4784b208ab7c28439fa5e40cfddcfbd3",
       "scripts": 2,
-      "sizeKb": 5,
-      "builtUtc": "2026-11-02T11:55:41.7514855Z"
+      "sizeKb": 6,
+      "builtUtc": "2026-11-09T12:25:12.5775690Z"
     },
     {
       "id": "mggraph-intune",
@@ -73,7 +73,7 @@
       "commit": "2e668455288ebc43b7356b2d9b0c537e24c409f4",
       "scripts": 63,
       "sizeKb": 75,
-      "builtUtc": "2026-11-02T11:55:42.5050842Z"
+      "builtUtc": "2026-11-09T12:25:13.5652297Z"
     }
   ]
 }
